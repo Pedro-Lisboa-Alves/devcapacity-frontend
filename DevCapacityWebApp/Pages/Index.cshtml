@@ -1,10 +1,10 @@
 ﻿@page
-@model IndexModel
-@{
-    ViewData["Title"] = "Home page";
-}
+@model DevCapacityWebApp.Pages.IndexModel
+
+@* Mostrar as tabs criadas para acesso rápido *@
+@await Html.PartialAsync("_Tabs")
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>Use the tabs above to manage Engineers and Teams.</p>
 </div>

@@ -1,0 +1,9 @@
+@* Shared tabs para navegar entre as páginas de CRUD *@
+<ul class="nav nav-tabs mb-3">
+  <li class="nav-item">
+    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Engineers") ? "active" : "")" href="/Engineers">Engineers</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Teams") ? "active" : "")" href="/Teams">Teams</a>
+  </li>
+</ul>

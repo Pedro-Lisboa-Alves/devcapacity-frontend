@@ -1,0 +1,59 @@
+@page
+@model DevCapacityWebApp.Pages.Engineers.IndexModel
+@await Html.PartialAsync("_Tabs")
+
+<h3>Engineers</h3>
+
+<table class="table table-sm">
+  <thead><tr><th>Id</th><th>Name</th><th>Role</th><th>Team</th><th></th></tr></thead>
+  <tbody>
+  @foreach(var e in Model.Engineers)
+  {
+    <tr>
+      <td>@e.Id</td>
+      <td>@e.Name</td>
+      <td>@e.Role</td>
+      <td>@e.TeamId</td>
+      <td>
+        <a class="btn btn-sm btn-secondary me-1" href="/Engineers/Edit?id=@e.Id">Edit</a>
+
+        <form method="post" asp-page-handler="Delete" class="d-inline">
+          <input type="hidden" name="id" value="@e.Id" />
+          <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+        </form>
+      </td>
+    </tr>
+  }
+  </tbody>
+</table>
+
+<h4>Create Engineer</h4>
+<form method="post" asp-page-handler="Create">
+  <div class="mb-2">
+    <input class="form-control" name="NewEngineer.Name" placeholder="Name" />
+  </div>
+  <div class="mb-2">
+    <input class="form-control" name="NewEngineer.Role" placeholder="Role" />
+  </div>
+  <div class="mb-2">
+    <label class="form-label">Team</label>
+    <select class="form-select" asp-for="NewEngineer.TeamId">
+      <option value="">-- Select Team --</option>
+      @if (Model.Teams != null)
+      {
+        foreach (var t in Model.Teams)
+        {
+          if (Model.NewEngineer != null && Model.NewEngineer.TeamId.HasValue && t.TeamId == Model.NewEngineer.TeamId.Value)
+          {
+            <option value="@t.TeamId" selected="selected">@t.Name</option>
+          }
+          else
+          {
+            <option value="@t.TeamId">@t.Name</option>
+          }
+        }
+      }
+    </select>
+  </div>
+  <button class="btn btn-primary" type="submit">Create</button>
+</form>

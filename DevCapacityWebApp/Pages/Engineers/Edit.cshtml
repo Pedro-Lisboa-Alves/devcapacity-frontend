@@ -1,0 +1,37 @@
+@page
+@model DevCapacityWebApp.Pages.Engineers.EditModel
+@await Html.PartialAsync("_Tabs")
+
+<h3>Edit Engineer</h3>
+
+<form method="post">
+  <input type="hidden" asp-for="Engineer.Id" />
+  <div class="mb-2">
+    <input class="form-control" asp-for="Engineer.Name" placeholder="Name" />
+  </div>
+  <div class="mb-2">
+    <input class="form-control" asp-for="Engineer.Role" placeholder="Role" />
+  </div>
+  <div class="mb-2">
+    <label class="form-label">Team</label>
+    <select class="form-select" asp-for="Engineer.TeamId" name="Engineer.TeamId">
+      <option value="">-- Select Team --</option>
+      @if (Model.Teams != null)
+      {
+        @foreach (var t in Model.Teams)
+        {
+            if (t.TeamId == Model.Engineer.TeamId)
+            {
+                <option value="@t.TeamId" selected="selected">@t.Name</option>
+            }
+            else
+            {
+                <option value="@t.TeamId">@t.Name</option>
+            }
+        }
+      }
+    </select>
+  </div>
+  <button class="btn btn-primary" type="submit">Save</button>
+  <a class="btn btn-secondary ms-2" href="/Engineers">Cancel</a>
+</form>

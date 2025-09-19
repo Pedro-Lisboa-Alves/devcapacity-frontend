@@ -1,0 +1,32 @@
+@page
+@model DevCapacityWebApp.Pages.Teams.IndexModel
+@await Html.PartialAsync("_Tabs")
+
+<h3>Teams</h3>
+
+<table class="table table-sm">
+  <thead><tr><th>Id</th><th>Name</th><th>Description</th><th></th></tr></thead>
+  <tbody>
+  @foreach(var t in Model.Teams)
+  {
+    <tr>
+      <td>@t.TeamId</td>
+      <td>@t.Name</td>
+      <td>
+        <form method="post" asp-page-handler="Delete" class="d-inline">
+          <input type="hidden" name="id" value="@t.TeamId" />
+          <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+        </form>
+      </td>
+    </tr>
+  }
+  </tbody>
+</table>
+
+<h4>Create Team</h4>
+<form method="post" asp-page-handler="Create">
+  <div class="mb-2">
+    <input class="form-control" name="NewTeam.Name" placeholder="Name" />
+  </div>
+  <button class="btn btn-primary" type="submit">Create</button>
+</form>
