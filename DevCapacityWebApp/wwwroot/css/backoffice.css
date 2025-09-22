@@ -33,6 +33,12 @@ html,body{height:100%;background:var(--bg);color:#202124;margin:0;padding:0;}
 .nav-tabs .nav-link{color:var(--muted);border-radius:8px;padding:8px 14px;margin-right:6px;}
 .nav-tabs .nav-link.active{background:linear-gradient(180deg,var(--accent),var(--accent-600));color:white;border:none;}
 
+/* Hide legacy nav tabs (keeps markup but visually hidden) */
+.nav.nav-tabs,
+.nav.nav-tabs.mb-3 {
+  display: none !important;
+}
+
 /* Responsive tables */
 .table-responsive{overflow:auto;border-radius:8px;background:transparent;padding:8px;}
 table{width:100%;border-collapse:separate;border-spacing:0;background:transparent;}
