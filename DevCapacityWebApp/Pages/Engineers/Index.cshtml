@@ -2,30 +2,33 @@
 @model DevCapacityWebApp.Pages.Engineers.IndexModel
 @await Html.PartialAsync("_Tabs")
 
-<h3>Engineers</h3>
+<div class="card">
+  <h3>Engineers</h3>
 
-<table class="table table-sm">
-  <thead><tr><th>Id</th><th>Name</th><th>Role</th><th>Team</th><th></th></tr></thead>
-  <tbody>
-  @foreach(var e in Model.Engineers)
-  {
-    <tr>
-      <td>@e.Id</td>
-      <td>@e.Name</td>
-      <td>@e.Role</td>
-      <td>@e.TeamId</td>
-      <td>
-        <a class="btn btn-sm btn-secondary me-1" href="/Engineers/Edit?id=@e.Id">Edit</a>
-
-        <form method="post" asp-page-handler="Delete" class="d-inline">
-          <input type="hidden" name="id" value="@e.Id" />
-          <button class="btn btn-sm btn-danger" type="submit">Delete</button>
-        </form>
-      </td>
-    </tr>
-  }
-  </tbody>
-</table>
+  <div class="table-responsive">
+    <table class="table table-sm">
+      <thead><tr><th>Id</th><th>Name</th><th>Role</th><th>Team</th><th></th></tr></thead>
+      <tbody>
+      @foreach(var e in Model.Engineers)
+      {
+        <tr>
+          <td>@e.Id</td>
+          <td>@e.Name</td>
+          <td>@e.Role</td>
+          <td>@e.TeamId</td>
+          <td class="table-actions">
+            <a class="btn btn-sm btn-secondary" href="/Engineers/Edit?id=@e.Id">Edit</a>
+            <form method="post" asp-page-handler="Delete" class="d-inline">
+              <input type="hidden" name="id" value="@e.Id" />
+              <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+      }
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <h4>Create Engineer</h4>
 <form method="post" asp-page-handler="Create">
