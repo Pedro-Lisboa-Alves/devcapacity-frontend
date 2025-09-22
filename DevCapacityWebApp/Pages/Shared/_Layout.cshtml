@@ -1,33 +1,44 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Develompent Capacity Managment</title>
-    <link rel="stylesheet" href="~/css/backoffice.css" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/DevCapacityWebApp.styles.css" asp-append-version="true" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Develompent Capacity Managment</title>
+  <link rel="stylesheet" href="~/css/backoffice.css" />
+  <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/DevCapacityWebApp.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
+        <button id="sidebarToggle" class="btn btn-icon" aria-label="Open sidebar">☰</button>
         <a class="navbar-brand" href="/">Develompent Capacity Managment</a>
       </div>
     </header>
 
-    <div class="app-shell">
-        <div class="container">
-            <main role="main" class="pb-3">
-                @RenderBody()
-            </main>
-        </div>
+    <!-- sidebar + main layout -->
+    <div class="layout-shell">
+      @* include the sidebar partial *@
+      @await Html.PartialAsync("_Sidebar")
 
-        <footer class="border-top footer text-muted">
+      <main class="main-content">
+        <div class="app-shell">
             <div class="container">
-                &copy; 2025 - DevCapacityWebApp - <a asp-area="" asp-page="/Privacy">Privacy</a>
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
             </div>
-        </footer>
+
+            <footer class="border-top footer text-muted">
+                <div class="container">
+                    &copy; 2025 - DevCapacityWebApp - <a asp-area="" asp-page="/Privacy">Privacy</a>
+                </div>
+            </footer>
+        </div>
+      </main>
     </div>
+
+    <script src="~/js/sidebar.js"></script>
 </body>
 </html>

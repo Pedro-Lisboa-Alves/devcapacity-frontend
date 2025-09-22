@@ -91,4 +91,5 @@
 /Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/DevCapacityWebApp.pdb
 /Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/DevCapacityWebApp.genruntimeconfig.cache
 /Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/ref/DevCapacityWebApp.dll
-/Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/compressed/l5y5pjuliu-4k4imlke2p.gz
+/Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/compressed/l5y5pjuliu-rfnujgi8nf.gz
+/Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/compressed/b4w5s2rs12-n60uvaaaon.gz
