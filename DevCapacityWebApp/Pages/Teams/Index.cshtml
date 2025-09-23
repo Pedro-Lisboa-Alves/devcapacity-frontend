@@ -2,26 +2,38 @@
 @model DevCapacityWebApp.Pages.Teams.IndexModel
 @await Html.PartialAsync("_Tabs")
 
-<h3>Teams</h3>
+<div class="card">
+  <h3>Teams</h3>
 
-<table class="table table-sm">
-  <thead><tr><th>Id</th><th>Name</th><th>Description</th><th></th></tr></thead>
-  <tbody>
-  @foreach(var t in Model.Teams)
-  {
-    <tr>
-      <td>@t.TeamId</td>
-      <td>@t.Name</td>
-      <td>
-        <form method="post" asp-page-handler="Delete" class="d-inline">
-          <input type="hidden" name="id" value="@t.TeamId" />
-          <button class="btn btn-sm btn-danger" type="submit">Delete</button>
-        </form>
-      </td>
-    </tr>
-  }
-  </tbody>
-</table>
+  <div class="table-responsive">
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach(var t in Model.Teams)
+        {
+          <tr>
+            <td>@t.TeamId</td>
+            <td>@t.Name</td>
+            <td class="table-actions">
+              <a class="btn btn-sm btn-secondary me-1" href="/Teams/Edit?id=@t.TeamId">Edit</a>
+
+              <form method="post" asp-page-handler="Delete" class="d-inline">
+                <input type="hidden" name="id" value="@t.TeamId" />
+                <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+              </form>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <h4>Create Team</h4>
 <form method="post" asp-page-handler="Create">
