@@ -61,21 +61,21 @@ table tbody tr:hover{background:rgba(26,115,232,0.03);}
 .form-control::placeholder { color: #9aa0a6; }
 .form-control:focus, .form-select:focus{outline:none;box-shadow:0 6px 18px rgba(26,115,232,0.08);border-color:var(--accent-600);}
 
-/* Sidebar styles */
+/* Sidebar styles (updated to match page background) */
 .layout-shell{display:flex;gap:18px;}
 .sidebar{
   width:260px;
-  background:var(--card);
-  border:1px solid var(--border);
+  background:var(--bg);               /* match page background */
+  border:1px solid rgba(0,0,0,0);     /* remove visible border to blend with page */
   border-radius:12px;
   padding:12px;
-  box-shadow:var(--shadow);
+  box-shadow: none;                   /* remove shadow so sidebar blends */
   height:calc(100vh - 88px);
   overflow:auto;
   transition:transform .22s ease, opacity .22s ease;
 }
-.sidebar-header{display:flex;align-items:center;justify-content:space-between;padding-bottom:8px;border-bottom:1px solid rgba(0,0,0,0.04);}
-.sidebar .brand{font-weight:600;color:#202124;}
+.sidebar-header{display:flex;align-items:center;justify-content:space-between;padding-bottom:8px;border-bottom:1px solid rgba(239, 235, 235, 0.03);}
+.sidebar .brand{font-weight:600;color:var(--accent);}
 .sidebar-nav{margin-top:12px;}
 .sidebar-nav ul{list-style:none;padding:0;margin:0;}
 .sidebar-nav .nav-item{display:block;padding:10px 8px;border-radius:8px;color:var(--muted);text-decoration:none;}
