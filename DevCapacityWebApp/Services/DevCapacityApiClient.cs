@@ -97,22 +97,22 @@ namespace DevCapacityWebApp.Services
         }
 
         // Initiatives
-        public async Task<List<Initiative>> GetInitiativesAsync()
+        public async Task<List<Initiatives>> GetInitiativesAsync()
         {
-            var list = await _http.GetFromJsonAsync<List<Initiative>>("/initiatives");
-            return list ?? new List<Initiative>();
+            var list = await _http.GetFromJsonAsync<List<Initiatives>>("/initiatives");
+            return list ?? new List<Initiatives>();
         }
 
-        public Task<Initiative?> GetInitiativeAsync(int id) =>
-            _http.GetFromJsonAsync<Initiative>($"/initiatives/{id}");
+        public Task<Initiatives?> GetInitiativeAsync(int id) =>
+            _http.GetFromJsonAsync<Initiatives>($"/initiatives/{id}");
 
-        public async Task<bool> CreateInitiativeAsync(Initiative i)
+        public async Task<bool> CreateInitiativeAsync(Initiatives i)
         {
             var r = await _http.PostAsJsonAsync("/initiatives", i);
             return r.IsSuccessStatusCode;
         }
 
-        public async Task<bool> UpdateInitiativeAsync(int id, Initiative i)
+        public async Task<bool> UpdateInitiativeAsync(int id, Initiatives i)
         {
             var r = await _http.PutAsJsonAsync($"/initiatives/{id}", i);
             return r.IsSuccessStatusCode;
@@ -141,6 +141,13 @@ namespace DevCapacityWebApp.Services
         {
             var r = await _http.DeleteAsync($"/assignments/{id}");
             return r.IsSuccessStatusCode;
+        }
+
+        // Statuses
+        public async Task<List<Status>> GetStatusesAsync()
+        {
+            var list = await _http.GetFromJsonAsync<List<Status>>("/status");
+            return list ?? new List<Status>();
         }
     }
 }

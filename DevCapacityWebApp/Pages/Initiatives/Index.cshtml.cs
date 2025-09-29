@@ -12,14 +12,18 @@ namespace DevCapacityWebApp.Pages.Initiatives
         private readonly DevCapacityApiClient _api;
         public IndexModel(DevCapacityApiClient api) => _api = api;
 
-        public List<Initiative> Initiatives { get; set; } = new();
+        public List<Models.Initiatives> Initiatives { get; set; } = new();
+
+        // statuses loaded from API
+        public List<Status> Status { get; set; } = new();
 
         [BindProperty]
-        public Initiative NewInitiative { get; set; } = new();
+        public Models.Initiatives NewInitiative { get; set; } = new();
 
         public async Task OnGetAsync()
         {
             Initiatives = await _api.GetInitiativesAsync();
+            Status = await _api.GetStatusesAsync();
         }
 
         public async Task<IActionResult> OnPostCreateAsync()
@@ -28,6 +32,7 @@ namespace DevCapacityWebApp.Pages.Initiatives
             return RedirectToPage();
         }
 
+        // receives the InitiativeId from the hidden input
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
             await _api.DeleteInitiativeAsync(id);

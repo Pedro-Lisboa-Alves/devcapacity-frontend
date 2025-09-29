@@ -20,13 +20,13 @@
       {
         @foreach (var i in Model.Initiatives)
         {
-            if (i.Id == Model.Task.InitiativeId)
+            if (i.InitiativeId == Model.Task.InitiativeId)
             {
-                <option value="@i.Id" selected="selected">@i.Name</option>
+                <option value="@i.InitiativeId" selected="selected">@i.Name</option>
             }
             else
             {
-                <option value="@i.Id">@i.Name</option>
+                <option value="@i.InitiativeId">@i.Name</option>
             }
         }
       }

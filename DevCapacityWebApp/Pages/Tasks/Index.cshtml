@@ -1,6 +1,7 @@
 @page
 @model DevCapacityWebApp.Pages.Tasks.IndexModel
-@await Html.PartialAsync("_Sidebar")
+@await Html.PartialAsync("_Tabs")
+
 
 <div class="card">
   <h3>Tasks</h3>
@@ -13,7 +14,7 @@
         <tr>
           <td>@t.Id</td>
           <td>@t.Title</td>
-          <td>@Model.Initiatives.FirstOrDefault(i => i.Id == t.InitiativeId)?.Name</td>
+          <td>@Model.Initiatives.FirstOrDefault(i => i.InitiativeId == t.InitiativeId)?.Name</td>
           <td class="table-actions">
             <a class="btn btn-sm btn-secondary" href="/Tasks/Edit?id=@t.Id">Edit</a>
             <form method="post" asp-page-handler="Delete" class="d-inline">
@@ -42,7 +43,7 @@
       <option value="">-- Select Initiative --</option>
       @foreach(var i in Model.Initiatives)
       {
-        <option value="@i.Id">@i.Name</option>
+        <option value="@i.InitiativeId">@i.Name</option>
       }
     </select>
   </div>

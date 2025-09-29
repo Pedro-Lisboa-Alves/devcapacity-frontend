@@ -13,7 +13,7 @@ namespace DevCapacityWebApp.Pages.Tasks
         public IndexModel(DevCapacityApiClient api) => _api = api;
 
         public List<TaskItem> Tasks { get; set; } = new();
-        public List<Initiative> Initiatives { get; set; } = new();
+        public List<Models.Initiatives> Initiatives { get; set; } = new();
 
         [BindProperty]
         public TaskItem NewTask { get; set; } = new();

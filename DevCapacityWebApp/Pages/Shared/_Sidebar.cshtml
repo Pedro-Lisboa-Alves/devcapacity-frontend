@@ -1,13 +1,26 @@
 <aside class="sidebar" id="appSidebar" aria-hidden="false">
   <div class="sidebar-header">
     <button id="sidebarClose" class="sidebar-close" aria-label="Close sidebar">✕</button>
+    <div class="brand">Develompent Capacity Managment</div>
   </div>
 
   <nav class="sidebar-nav" aria-label="Main navigation">
     <ul>
-      <li><a class="nav-item" href="/">Timeline</a></li>
-      <li><a class="nav-item" href="/Engineers">Engineers</a></li>
-      <li><a class="nav-item" href="/Teams">Teams</a></li>
+      <li>
+        <a class="nav-item @(Context.Request.Path == "/" ? "active" : "")" href="/">Timeline</a>
+      </li>
+      <li>
+        <a class="nav-item @(Context.Request.Path.StartsWithSegments("/Engineers") ? "active" : "")" href="/Engineers">Engineers</a>
+      </li>
+      <li>
+        <a class="nav-item @(Context.Request.Path.StartsWithSegments("/Teams") ? "active" : "")" href="/Teams">Teams</a>
+      </li>
+      <li>
+        <a class="nav-item @(Context.Request.Path.StartsWithSegments("/Tasks") ? "active" : "")" href="/Tasks">Tasks</a>
+      </li>
+      <li>
+        <a class="nav-item @(Context.Request.Path.StartsWithSegments("/Initiatives") ? "active" : "")" href="/Initiatives">Initiatives</a>
+      </li>
     </ul>
   </nav>
 </aside>

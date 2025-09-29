@@ -14,9 +14,13 @@ namespace DevCapacityWebApp.Pages.Initiatives
         public EditModel(DevCapacityApiClient api) => _api = api;
 
         [BindProperty]
-        public Initiative Initiative { get; set; } = new();
+        public DevCapacityWebApp.Models.Initiatives Initiative { get; set; } = new();
 
+        // tasks that belong to this initiative
         public List<TaskItem> Tasks { get; set; } = new();
+
+        // added: statuses for the select
+        public List<Status> Statuses { get; set; } = new();
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
@@ -25,7 +29,10 @@ namespace DevCapacityWebApp.Pages.Initiatives
             Initiative = it;
 
             var allTasks = await _api.GetTasksAsync();
-            Tasks = allTasks.Where(t => t.InitiativeId.HasValue && t.InitiativeId.Value == Initiative.Id).ToList();
+            Tasks = allTasks.Where(t => t.InitiativeId.HasValue && t.InitiativeId.Value == Initiative.InitiativeId).ToList();
+
+            // load statuses
+            Statuses = await _api.GetStatusesAsync();
 
             return Page();
         }
@@ -35,11 +42,15 @@ namespace DevCapacityWebApp.Pages.Initiatives
             if (!ModelState.IsValid)
             {
                 var allTasks = await _api.GetTasksAsync();
-                Tasks = allTasks.Where(t => t.InitiativeId.HasValue && t.InitiativeId.Value == Initiative.Id).ToList();
+                Tasks = allTasks.Where(t => t.InitiativeId.HasValue && t.InitiativeId.Value == Initiative.InitiativeId).ToList();
+
+                // reload statuses on validation error
+                Statuses = await _api.GetStatusesAsync();
+
                 return Page();
             }
 
-            await _api.UpdateInitiativeAsync(Initiative.Id, Initiative);
+            await _api.UpdateInitiativeAsync(Initiative.InitiativeId, Initiative);
             return RedirectToPage("/Initiatives/Index");
         }
 

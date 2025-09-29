@@ -16,7 +16,7 @@ namespace DevCapacityWebApp.Pages.Tasks
         [BindProperty]
         public TaskItem Task { get; set; } = new();
 
-        public List<Initiative> Initiatives { get; set; } = new();
+        public List<Models.Initiatives> Initiatives { get; set; } = new();
         public List<Engineer> Engineers { get; set; } = new();
         public List<EngineerAssignment> Assignments { get; set; } = new();
 

@@ -1,22 +1,36 @@
 @page
 @model DevCapacityWebApp.Pages.Initiatives.IndexModel
-@await Html.PartialAsync("_Sidebar")
+@await Html.PartialAsync("_Tabs")
 
 <div class="card">
   <h3>Initiatives</h3>
   <div class="table-responsive">
     <table class="table table-sm">
-      <thead><tr><th>Id</th><th>Name</th><th></th></tr></thead>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Status</th>
+          <th>PDs</th>
+          <th>Start</th>
+          <th>End</th>
+          <th></th>
+        </tr>
+      </thead>
       <tbody>
         @foreach(var i in Model.Initiatives)
         {
           <tr>
-            <td>@i.Id</td>
+            <td>@i.InitiativeId</td>
             <td>@i.Name</td>
+            <td>@(Model.Status?.FirstOrDefault(s => s.StatusId == i.Status)?.Name ?? i.Status.ToString())</td>
+            <td>@i.PDs</td>
+            <td>@i.StartDate.ToString("yyyy-MM-dd")</td>
+            <td>@i.EndDate.ToString("yyyy-MM-dd")</td>
             <td class="table-actions">
-              <a class="btn btn-sm btn-secondary" href="/Initiatives/Edit?id=@i.Id">Edit</a>
+              <a class="btn btn-sm btn-secondary me-1" href="/Initiatives/Edit?id=@i.InitiativeId">Edit</a>
               <form method="post" asp-page-handler="Delete" class="d-inline">
-                <input type="hidden" name="id" value="@i.Id" />
+                <input type="hidden" name="id" value="@i.InitiativeId" />
                 <button class="btn btn-sm btn-danger" type="submit">Delete</button>
               </form>
             </td>
@@ -32,8 +46,32 @@
   <div class="mb-2">
     <input class="form-control" name="NewInitiative.Name" placeholder="Name" />
   </div>
-  <div class="mb-2">
-    <input class="form-control" name="NewInitiative.Description" placeholder="Description" />
+  <div class="row g-2 mb-2">
+    <div class="col-md-3">
+      <label class="form-label">Status</label>
+      <select class="form-select" name="NewInitiative.Status">
+        <option value="">-- Select Status --</option>
+        @if (Model.Status != null)
+        {
+          @foreach (var s in Model.Status)
+          {
+            <option value="@s.StatusId">@s.Name</option>
+          }
+        }
+      </select>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">PDs</label>
+      <input class="form-control" type="number" name="NewInitiative.PDs" placeholder="PDs" />
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Start Date</label>
+      <input class="form-control" type="date" name="NewInitiative.StartDate" />
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">End Date</label>
+      <input class="form-control" type="date" name="NewInitiative.EndDate" />
+    </div>
   </div>
   <button class="btn btn-primary" type="submit">Create</button>
 </form>
