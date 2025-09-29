@@ -38,11 +38,13 @@
     </div>
     <div class="col-md-3">
       <label class="form-label">Start Date</label>
-      <input class="form-control" type="date" asp-for="Initiative.StartDate" />
+      <input class="form-control" type="date" name="Initiative.StartDate"
+             value="@(Model.Initiative.StartDate.HasValue ? Model.Initiative.StartDate.Value.ToString("yyyy-MM-dd") : "")" />
     </div>
     <div class="col-md-3">
       <label class="form-label">End Date</label>
-      <input class="form-control" type="date" asp-for="Initiative.EndDate" />
+      <input class="form-control" type="date" name="Initiative.EndDate"
+             value="@(Model.Initiative.EndDate.HasValue ? Model.Initiative.EndDate.Value.ToString("yyyy-MM-dd") : "")" />
     </div>
   </div>
 

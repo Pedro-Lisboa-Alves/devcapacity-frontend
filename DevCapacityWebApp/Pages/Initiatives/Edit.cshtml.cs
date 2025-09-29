@@ -16,10 +16,7 @@ namespace DevCapacityWebApp.Pages.Initiatives
         [BindProperty]
         public DevCapacityWebApp.Models.Initiatives Initiative { get; set; } = new();
 
-        // tasks that belong to this initiative
         public List<TaskItem> Tasks { get; set; } = new();
-
-        // added: statuses for the select
         public List<Status> Statuses { get; set; } = new();
 
         public async Task<IActionResult> OnGetAsync(int id)
@@ -31,7 +28,6 @@ namespace DevCapacityWebApp.Pages.Initiatives
             var allTasks = await _api.GetTasksAsync();
             Tasks = allTasks.Where(t => t.InitiativeId.HasValue && t.InitiativeId.Value == Initiative.InitiativeId).ToList();
 
-            // load statuses
             Statuses = await _api.GetStatusesAsync();
 
             return Page();
@@ -43,10 +39,7 @@ namespace DevCapacityWebApp.Pages.Initiatives
             {
                 var allTasks = await _api.GetTasksAsync();
                 Tasks = allTasks.Where(t => t.InitiativeId.HasValue && t.InitiativeId.Value == Initiative.InitiativeId).ToList();
-
-                // reload statuses on validation error
                 Statuses = await _api.GetStatusesAsync();
-
                 return Page();
             }
 
