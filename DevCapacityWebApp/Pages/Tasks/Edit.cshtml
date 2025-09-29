@@ -1,0 +1,95 @@
+@page
+@model DevCapacityWebApp.Pages.Tasks.EditModel
+@await Html.PartialAsync("_Sidebar")
+
+<h3>Edit Task</h3>
+
+<form method="post" class="mb-3">
+  <input type="hidden" asp-for="Task.Id" />
+  <div class="mb-2">
+    <input class="form-control" asp-for="Task.Title" placeholder="Title" />
+  </div>
+  <div class="mb-2">
+    <input class="form-control" asp-for="Task.Description" placeholder="Description" />
+  </div>
+  <div class="mb-2">
+    <label class="form-label">Initiative</label>
+    <select class="form-select" asp-for="Task.InitiativeId" name="Task.InitiativeId">
+      <option value="">-- Select Initiative --</option>
+      @if (Model.Initiatives != null)
+      {
+        @foreach (var i in Model.Initiatives)
+        {
+            if (i.Id == Model.Task.InitiativeId)
+            {
+                <option value="@i.Id" selected="selected">@i.Name</option>
+            }
+            else
+            {
+                <option value="@i.Id">@i.Name</option>
+            }
+        }
+      }
+    </select>
+  </div>
+
+  <div class="d-flex gap-2">
+    <button class="btn btn-primary" type="submit">Save</button>
+    <a class="btn btn-secondary" href="/Tasks">Cancel</a>
+  </div>
+</form>
+
+<hr />
+
+<h4>Engineer Assignments</h4>
+
+<form method="post" asp-page-handler="AddAssignment" class="row g-2 mb-3">
+  <input type="hidden" name="NewAssignment.TaskId" value="@Model.Task.Id" />
+  <div class="col-md-5">
+    <select class="form-select" name="NewAssignment.EngineerId" required>
+      <option value="">-- Select Engineer --</option>
+      @if (Model.Engineers != null)
+      {
+        @foreach(var e in Model.Engineers)
+        {
+          <option value="@e.Id">@e.Name</option>
+        }
+      }
+    </select>
+  </div>
+  <div class="col-md-4">
+    <input class="form-control" name="NewAssignment.Role" placeholder="Role (optional)" />
+  </div>
+  <div class="col-md-2">
+    <input class="form-control" name="NewAssignment.Hours" placeholder="Hours" />
+  </div>
+  <div class="col-md-1">
+    <button class="btn btn-primary" type="submit">Add</button>
+  </div>
+</form>
+
+<div class="table-responsive">
+  <table class="table table-sm">
+    <thead><tr><th>Id</th><th>Engineer</th><th>Role</th><th>Hours</th><th></th></tr></thead>
+    <tbody>
+      @if (Model.Assignments != null)
+      {
+        @foreach(var a in Model.Assignments)
+        {
+          <tr>
+            <td>@a.Id</td>
+            <td>@Model.Engineers.FirstOrDefault(x => x.Id == a.EngineerId)?.Name</td>
+            <td>@a.Role</td>
+            <td>@a.Hours</td>
+            <td>
+              <form method="post" asp-page-handler="DeleteAssignment" class="d-inline">
+                <input type="hidden" name="id" value="@a.Id" />
+                <button class="btn btn-sm btn-danger" type="submit">Remove</button>
+              </form>
+            </td>
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>

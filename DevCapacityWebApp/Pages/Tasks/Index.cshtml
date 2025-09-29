@@ -1,0 +1,50 @@
+@page
+@model DevCapacityWebApp.Pages.Tasks.IndexModel
+@await Html.PartialAsync("_Sidebar")
+
+<div class="card">
+  <h3>Tasks</h3>
+  <div class="table-responsive">
+    <table class="table table-sm">
+      <thead><tr><th>Id</th><th>Title</th><th>Initiative</th><th></th></tr></thead>
+      <tbody>
+      @foreach(var t in Model.Tasks)
+      {
+        <tr>
+          <td>@t.Id</td>
+          <td>@t.Title</td>
+          <td>@Model.Initiatives.FirstOrDefault(i => i.Id == t.InitiativeId)?.Name</td>
+          <td class="table-actions">
+            <a class="btn btn-sm btn-secondary" href="/Tasks/Edit?id=@t.Id">Edit</a>
+            <form method="post" asp-page-handler="Delete" class="d-inline">
+              <input type="hidden" name="id" value="@t.Id" />
+              <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+      }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<h4>Create Task</h4>
+<form method="post" asp-page-handler="Create">
+  <div class="mb-2">
+    <input class="form-control" name="NewTask.Title" placeholder="Title" />
+  </div>
+  <div class="mb-2">
+    <input class="form-control" name="NewTask.Description" placeholder="Description" />
+  </div>
+  <div class="mb-2">
+    <label class="form-label">Initiative</label>
+    <select class="form-select" name="NewTask.InitiativeId">
+      <option value="">-- Select Initiative --</option>
+      @foreach(var i in Model.Initiatives)
+      {
+        <option value="@i.Id">@i.Name</option>
+      }
+    </select>
+  </div>
+  <button class="btn btn-primary" type="submit">Create</button>
+</form>

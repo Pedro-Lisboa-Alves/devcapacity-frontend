@@ -1,0 +1,39 @@
+@page
+@model DevCapacityWebApp.Pages.Initiatives.IndexModel
+@await Html.PartialAsync("_Sidebar")
+
+<div class="card">
+  <h3>Initiatives</h3>
+  <div class="table-responsive">
+    <table class="table table-sm">
+      <thead><tr><th>Id</th><th>Name</th><th></th></tr></thead>
+      <tbody>
+        @foreach(var i in Model.Initiatives)
+        {
+          <tr>
+            <td>@i.Id</td>
+            <td>@i.Name</td>
+            <td class="table-actions">
+              <a class="btn btn-sm btn-secondary" href="/Initiatives/Edit?id=@i.Id">Edit</a>
+              <form method="post" asp-page-handler="Delete" class="d-inline">
+                <input type="hidden" name="id" value="@i.Id" />
+                <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+              </form>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<h4>Create Initiative</h4>
+<form method="post" asp-page-handler="Create">
+  <div class="mb-2">
+    <input class="form-control" name="NewInitiative.Name" placeholder="Name" />
+  </div>
+  <div class="mb-2">
+    <input class="form-control" name="NewInitiative.Description" placeholder="Description" />
+  </div>
+  <button class="btn btn-primary" type="submit">Create</button>
+</form>
