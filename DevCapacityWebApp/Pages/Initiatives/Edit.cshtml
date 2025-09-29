@@ -70,10 +70,10 @@ else
         @foreach(var t in Model.Tasks)
         {
           <tr>
-            <td>@t.Id</td>
-            <td>@t.Title</td>
+            <td>@t.TaskId</td>
+            <td>@t.Name</td>
             <td>
-              <a class="btn btn-sm btn-secondary" href="/Tasks/Edit?id=@t.Id">Edit</a>
+              <a class="btn btn-sm btn-secondary" href="/Tasks/Edit?id=@t.TaskId">Edit</a>
             </td>
           </tr>
         }

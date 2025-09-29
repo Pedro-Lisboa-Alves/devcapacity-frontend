@@ -1,39 +1,77 @@
 @page
 @model DevCapacityWebApp.Pages.Tasks.EditModel
-@await Html.PartialAsync("_Sidebar")
+@await Html.PartialAsync("_Tabs")
 
 <h3>Edit Task</h3>
 
 <form method="post" class="mb-3">
-  <input type="hidden" asp-for="Task.Id" />
+  <input type="hidden" asp-for="Task.TaskId" />
   <div class="mb-2">
-    <input class="form-control" asp-for="Task.Title" placeholder="Title" />
+    <input class="form-control" asp-for="Task.Name" placeholder="Name" />
   </div>
-  <div class="mb-2">
-    <input class="form-control" asp-for="Task.Description" placeholder="Description" />
-  </div>
-  <div class="mb-2">
-    <label class="form-label">Initiative</label>
-    <select class="form-select" asp-for="Task.InitiativeId" name="Task.InitiativeId">
-      <option value="">-- Select Initiative --</option>
-      @if (Model.Initiatives != null)
-      {
-        @foreach (var i in Model.Initiatives)
+
+  <div class="row g-2 mb-2">
+    <div class="col-md-3">
+      <label class="form-label">Initiative</label>
+      <select class="form-select" asp-for="Task.Initiative" name="Task.Initiative">
+        <option value="">-- Select Initiative --</option>
+        @if (Model.Initiatives != null)
         {
-            if (i.InitiativeId == Model.Task.InitiativeId)
+          @foreach(var i in Model.Initiatives)
+          {
+            if (i.InitiativeId == Model.Task.Initiative)
             {
-                <option value="@i.InitiativeId" selected="selected">@i.Name</option>
+              <option value="@i.InitiativeId" selected="selected">@i.Name</option>
             }
             else
             {
-                <option value="@i.InitiativeId">@i.Name</option>
+              <option value="@i.InitiativeId">@i.Name</option>
             }
+          }
         }
-      }
-    </select>
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">Status</label>
+      <select class="form-select" asp-for="Task.Status" name="Task.Status">
+        <option value="">-- Select Status --</option>
+        @if (Model.Statuses != null)
+        {
+          @foreach(var s in Model.Statuses)
+          {
+            if (s.StatusId == Model.Task.Status)
+            {
+              <option value="@s.StatusId" selected="selected">@s.Name</option>
+            }
+            else
+            {
+              <option value="@s.StatusId">@s.Name</option>
+            }
+          }
+        }
+      </select>
+    </div>
+
+    <div class="col-md-2">
+      <label class="form-label">PDs</label>
+      <input class="form-control" type="number" asp-for="Task.PDs" />
+    </div>
+
+    <div class="col-md-2">
+      <label class="form-label">Start Date</label>
+      <input class="form-control" type="date" name="Task.StartDate"
+             value="@(Model.Task.StartDate != default(System.DateTime) ? Model.Task.StartDate.ToString("yyyy-MM-dd") : "")" />
+    </div>
+
+    <div class="col-md-2">
+      <label class="form-label">End Date</label>
+      <input class="form-control" type="date" name="Task.EndDate"
+             value="@(Model.Task.EndDate != default(System.DateTime) ? Model.Task.EndDate.ToString("yyyy-MM-dd") : "")" />
+    </div>
   </div>
 
-  <div class="d-flex gap-2">
+  <div class="d-flex gap-2 mt-2">
     <button class="btn btn-primary" type="submit">Save</button>
     <a class="btn btn-secondary" href="/Tasks">Cancel</a>
   </div>
@@ -44,7 +82,7 @@
 <h4>Engineer Assignments</h4>
 
 <form method="post" asp-page-handler="AddAssignment" class="row g-2 mb-3">
-  <input type="hidden" name="NewAssignment.TaskId" value="@Model.Task.Id" />
+  <input type="hidden" name="NewAssignment.TaskId" value="@Model.Task.TaskId" />
   <div class="col-md-5">
     <select class="form-select" name="NewAssignment.EngineerId" required>
       <option value="">-- Select Engineer --</option>

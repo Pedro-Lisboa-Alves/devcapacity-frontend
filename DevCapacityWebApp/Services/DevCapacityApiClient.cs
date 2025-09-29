@@ -40,51 +40,51 @@ namespace DevCapacityWebApp.Services
             return r.IsSuccessStatusCode;
         }
 
-        // Teams (corrigido para plural /teams)
+        // Teams
         public async Task<List<Team>> GetTeamsAsync()
         {
-            var list = await _http.GetFromJsonAsync<List<Team>>("/team");
+            var list = await _http.GetFromJsonAsync<List<Team>>("/teams");
             return list ?? new List<Team>();
         }
 
         public Task<Team?> GetTeamAsync(int id) =>
-            _http.GetFromJsonAsync<Team>($"/team/{id}");
+            _http.GetFromJsonAsync<Team>($"/teams/{id}");
 
         public async Task<bool> CreateTeamAsync(Team t)
         {
-            var r = await _http.PostAsJsonAsync("/team", t);
+            var r = await _http.PostAsJsonAsync("/teams", t);
             return r.IsSuccessStatusCode;
         }
 
         public async Task<bool> UpdateTeamAsync(int id, Team t)
         {
-            var r = await _http.PutAsJsonAsync($"/team/{id}", t);
+            var r = await _http.PutAsJsonAsync($"/teams/{id}", t);
             return r.IsSuccessStatusCode;
         }
 
         public async Task<bool> DeleteTeamAsync(int id)
         {
-            var r = await _http.DeleteAsync($"/team/{id}");
+            var r = await _http.DeleteAsync($"/teams/{id}");
             return r.IsSuccessStatusCode;
         }
 
-        // Tasks
-        public async Task<List<TaskItem>> GetTasksAsync()
+        // Tasks (DTO named Tasks)
+        public async Task<List<Tasks>> GetTasksAsync()
         {
-            var list = await _http.GetFromJsonAsync<List<TaskItem>>("/tasks");
-            return list ?? new List<TaskItem>();
+            var list = await _http.GetFromJsonAsync<List<Tasks>>("/tasks");
+            return list ?? new List<Tasks>();
         }
 
-        public Task<TaskItem?> GetTaskAsync(int id) =>
-            _http.GetFromJsonAsync<TaskItem>($"/tasks/{id}");
+        public Task<Tasks?> GetTaskAsync(int id) =>
+            _http.GetFromJsonAsync<Tasks>($"/tasks/{id}");
 
-        public async Task<bool> CreateTaskAsync(TaskItem t)
+        public async Task<bool> CreateTaskAsync(Tasks t)
         {
             var r = await _http.PostAsJsonAsync("/tasks", t);
             return r.IsSuccessStatusCode;
         }
 
-        public async Task<bool> UpdateTaskAsync(int id, TaskItem t)
+        public async Task<bool> UpdateTaskAsync(int id, Tasks t)
         {
             var r = await _http.PutAsJsonAsync($"/tasks/{id}", t);
             return r.IsSuccessStatusCode;
@@ -96,7 +96,7 @@ namespace DevCapacityWebApp.Services
             return r.IsSuccessStatusCode;
         }
 
-        // Initiatives
+        // Initiatives (DTO named Initiatives)
         public async Task<List<Initiatives>> GetInitiativesAsync()
         {
             var list = await _http.GetFromJsonAsync<List<Initiatives>>("/initiatives");
@@ -124,7 +124,14 @@ namespace DevCapacityWebApp.Services
             return r.IsSuccessStatusCode;
         }
 
-        // Engineer Assignments (for Tasks)
+        // Statuses
+        public async Task<List<Status>> GetStatusesAsync()
+        {
+            var list = await _http.GetFromJsonAsync<List<Status>>("/status");
+            return list ?? new List<Status>();
+        }
+
+        // Engineer assignments (for Tasks)
         public async Task<List<EngineerAssignment>> GetAssignmentsForTaskAsync(int taskId)
         {
             var list = await _http.GetFromJsonAsync<List<EngineerAssignment>>($"/tasks/{taskId}/assignments");
@@ -141,13 +148,6 @@ namespace DevCapacityWebApp.Services
         {
             var r = await _http.DeleteAsync($"/assignments/{id}");
             return r.IsSuccessStatusCode;
-        }
-
-        // Statuses
-        public async Task<List<Status>> GetStatusesAsync()
-        {
-            var list = await _http.GetFromJsonAsync<List<Status>>("/status");
-            return list ?? new List<Status>();
         }
     }
 }

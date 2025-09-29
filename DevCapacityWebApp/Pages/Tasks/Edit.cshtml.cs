@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using DevCapacityWebApp.Models;
 using DevCapacityWebApp.Services;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DevCapacityWebApp.Pages.Tasks
@@ -14,9 +13,10 @@ namespace DevCapacityWebApp.Pages.Tasks
         public EditModel(DevCapacityApiClient api) => _api = api;
 
         [BindProperty]
-        public TaskItem Task { get; set; } = new();
+        public DevCapacityWebApp.Models.Tasks Task { get; set; } = new();
 
-        public List<Models.Initiatives> Initiatives { get; set; } = new();
+        public List<DevCapacityWebApp.Models.Initiatives> Initiatives { get; set; } = new();
+        public List<Status> Statuses { get; set; } = new();
         public List<Engineer> Engineers { get; set; } = new();
         public List<EngineerAssignment> Assignments { get; set; } = new();
 
@@ -28,9 +28,12 @@ namespace DevCapacityWebApp.Pages.Tasks
             var t = await _api.GetTaskAsync(id);
             if (t == null) return RedirectToPage("/Tasks/Index");
             Task = t;
+
             Initiatives = await _api.GetInitiativesAsync();
+            Statuses = await _api.GetStatusesAsync();
             Engineers = await _api.GetEngineersAsync();
-            Assignments = await _api.GetAssignmentsForTaskAsync(Task.Id);
+            Assignments = await _api.GetAssignmentsForTaskAsync(Task.TaskId);
+
             return Page();
         }
 
@@ -39,12 +42,13 @@ namespace DevCapacityWebApp.Pages.Tasks
             if (!ModelState.IsValid)
             {
                 Initiatives = await _api.GetInitiativesAsync();
+                Statuses = await _api.GetStatusesAsync();
                 Engineers = await _api.GetEngineersAsync();
-                Assignments = await _api.GetAssignmentsForTaskAsync(Task.Id);
+                Assignments = await _api.GetAssignmentsForTaskAsync(Task.TaskId);
                 return Page();
             }
 
-            await _api.UpdateTaskAsync(Task.Id, Task);
+            await _api.UpdateTaskAsync(Task.TaskId, Task);
             return RedirectToPage("/Tasks/Index");
         }
 
@@ -58,7 +62,6 @@ namespace DevCapacityWebApp.Pages.Tasks
         public async Task<IActionResult> OnPostDeleteAssignmentAsync(int id)
         {
             await _api.DeleteAssignmentAsync(id);
-            // remain on same task page
             return Redirect(Request.Path + Request.QueryString);
         }
     }

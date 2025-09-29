@@ -2,23 +2,26 @@
 @model DevCapacityWebApp.Pages.Tasks.IndexModel
 @await Html.PartialAsync("_Tabs")
 
-
 <div class="card">
   <h3>Tasks</h3>
   <div class="table-responsive">
     <table class="table table-sm">
-      <thead><tr><th>Id</th><th>Title</th><th>Initiative</th><th></th></tr></thead>
+      <thead><tr><th>Id</th><th>Name</th><th>Initiative</th><th>Status</th><th>PDs</th><th>Start</th><th>End</th><th></th></tr></thead>
       <tbody>
       @foreach(var t in Model.Tasks)
       {
         <tr>
-          <td>@t.Id</td>
-          <td>@t.Title</td>
-          <td>@Model.Initiatives.FirstOrDefault(i => i.InitiativeId == t.InitiativeId)?.Name</td>
+          <td>@t.TaskId</td>
+          <td>@t.Name</td>
+          <td>@Model.Initiatives?.Find(x => x.InitiativeId == t.Initiative)?.Name</td>
+          <td>@Model.Statuses?.Find(s => s.StatusId == t.Status)?.Name</td>
+          <td>@t.PDs</td>
+          <td>@(t.StartDate != default(System.DateTime) ? t.StartDate.ToString("yyyy-MM-dd") : "")</td>
+          <td>@(t.EndDate != default(System.DateTime) ? t.EndDate.ToString("yyyy-MM-dd") : "")</td>
           <td class="table-actions">
-            <a class="btn btn-sm btn-secondary" href="/Tasks/Edit?id=@t.Id">Edit</a>
+            <a class="btn btn-sm btn-secondary me-1" href="/Tasks/Edit?id=@t.TaskId">Edit</a>
             <form method="post" asp-page-handler="Delete" class="d-inline">
-              <input type="hidden" name="id" value="@t.Id" />
+              <input type="hidden" name="id" value="@t.TaskId" />
               <button class="btn btn-sm btn-danger" type="submit">Delete</button>
             </form>
           </td>
@@ -32,20 +35,41 @@
 <h4>Create Task</h4>
 <form method="post" asp-page-handler="Create">
   <div class="mb-2">
-    <input class="form-control" name="NewTask.Title" placeholder="Title" />
+    <input class="form-control" name="NewTask.Name" placeholder="Name" />
   </div>
-  <div class="mb-2">
-    <input class="form-control" name="NewTask.Description" placeholder="Description" />
-  </div>
-  <div class="mb-2">
-    <label class="form-label">Initiative</label>
-    <select class="form-select" name="NewTask.InitiativeId">
-      <option value="">-- Select Initiative --</option>
-      @foreach(var i in Model.Initiatives)
-      {
-        <option value="@i.InitiativeId">@i.Name</option>
-      }
-    </select>
+  <div class="row g-2 mb-2">
+    <div class="col-md-3">
+      <label class="form-label">Initiative</label>
+      <select class="form-select" name="NewTask.Initiative">
+        <option value="">-- Select Initiative --</option>
+        @foreach(var i in Model.Initiatives)
+        {
+          <option value="@i.InitiativeId">@i.Name</option>
+        }
+      </select>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Status</label>
+      <select class="form-select" name="NewTask.Status">
+        <option value="">-- Select Status --</option>
+        @foreach(var s in Model.Statuses)
+        {
+          <option value="@s.StatusId">@s.Name</option>
+        }
+      </select>
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">PDs</label>
+      <input class="form-control" type="number" name="NewTask.PDs" />
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Start Date</label>
+      <input class="form-control" type="date" name="NewTask.StartDate" />
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">End Date</label>
+      <input class="form-control" type="date" name="NewTask.EndDate" />
+    </div>
   </div>
   <button class="btn btn-primary" type="submit">Create</button>
 </form>

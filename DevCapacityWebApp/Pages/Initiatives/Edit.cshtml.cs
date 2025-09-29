@@ -16,7 +16,7 @@ namespace DevCapacityWebApp.Pages.Initiatives
         [BindProperty]
         public DevCapacityWebApp.Models.Initiatives Initiative { get; set; } = new();
 
-        public List<TaskItem> Tasks { get; set; } = new();
+        public List<Models.Tasks> Tasks { get; set; } = new();
         public List<Status> Statuses { get; set; } = new();
 
         public async Task<IActionResult> OnGetAsync(int id)
@@ -26,7 +26,7 @@ namespace DevCapacityWebApp.Pages.Initiatives
             Initiative = it;
 
             var allTasks = await _api.GetTasksAsync();
-            Tasks = allTasks.Where(t => t.InitiativeId.HasValue && t.InitiativeId.Value == Initiative.InitiativeId).ToList();
+            Tasks = allTasks.Where(t => t.Initiative == Initiative.InitiativeId).ToList();
 
             Statuses = await _api.GetStatusesAsync();
 
@@ -38,7 +38,7 @@ namespace DevCapacityWebApp.Pages.Initiatives
             if (!ModelState.IsValid)
             {
                 var allTasks = await _api.GetTasksAsync();
-                Tasks = allTasks.Where(t => t.InitiativeId.HasValue && t.InitiativeId.Value == Initiative.InitiativeId).ToList();
+                Tasks = allTasks.Where(t => t.Initiative == Initiative.InitiativeId).ToList();
                 Statuses = await _api.GetStatusesAsync();
                 return Page();
             }

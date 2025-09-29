@@ -12,16 +12,18 @@ namespace DevCapacityWebApp.Pages.Tasks
         private readonly DevCapacityApiClient _api;
         public IndexModel(DevCapacityApiClient api) => _api = api;
 
-        public List<TaskItem> Tasks { get; set; } = new();
-        public List<Models.Initiatives> Initiatives { get; set; } = new();
+        public List<DevCapacityWebApp.Models.Tasks> Tasks { get; set; } = new();
+        public List<DevCapacityWebApp.Models.Initiatives> Initiatives { get; set; } = new();
+        public List<Status> Statuses { get; set; } = new();
 
         [BindProperty]
-        public TaskItem NewTask { get; set; } = new();
+        public DevCapacityWebApp.Models.Tasks NewTask { get; set; } = new();
 
         public async Task OnGetAsync()
         {
             Tasks = await _api.GetTasksAsync();
             Initiatives = await _api.GetInitiativesAsync();
+            Statuses = await _api.GetStatusesAsync();
         }
 
         public async Task<IActionResult> OnPostCreateAsync()
