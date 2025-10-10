@@ -12,14 +12,14 @@
       @foreach(var e in Model.Engineers)
       {
         <tr>
-          <td>@e.Id</td>
+          <td>@e.EngineerId</td>
           <td>@e.Name</td>
           <td>@e.Role</td>
           <td>@e.TeamId</td>
           <td class="table-actions">
-            <a class="btn btn-sm btn-secondary" href="/Engineers/Edit?id=@e.Id">Edit</a>
+            <a class="btn btn-sm btn-secondary" href="/Engineers/Edit?id=@e.EngineerId">Edit</a>
             <form method="post" asp-page-handler="Delete" class="d-inline">
-              <input type="hidden" name="id" value="@e.Id" />
+              <input type="hidden" name="id" value="@e.EngineerId" />
               <button class="btn btn-sm btn-danger" type="submit">Delete</button>
             </form>
           </td>

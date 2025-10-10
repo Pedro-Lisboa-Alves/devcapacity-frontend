@@ -92,7 +92,7 @@
       {
         @foreach(var e in Model.Engineers)
         {
-          <option value="@e.Id">@e.Name</option>
+          <option value="@e.EngineerId">@e.Name</option>
         }
       }
     </select>
@@ -113,7 +113,7 @@
         {
           <tr>
             <td>@a.AssignmentId</td>
-            <td>@Model.Engineers.FirstOrDefault(x => x.Id == a.EngineerId)?.Name</td>
+            <td>@Model.Engineers.FirstOrDefault(x => x.EngineerId == a.EngineerId)?.Name</td>
             <td>@a.CapacityShare</td>
             <td>@(a.StartDate != default(System.DateTime) ? a.StartDate.ToString("yyyy-MM-dd") : "")</td>
             <td>@(a.EndDate != default(System.DateTime) ? a.EndDate.ToString("yyyy-MM-dd") : "")</td>

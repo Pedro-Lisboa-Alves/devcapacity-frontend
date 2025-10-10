@@ -34,7 +34,7 @@ namespace DevCapacityWebApp.Pages.Engineers
                 Teams = await _api.GetTeamsAsync();
                 return Page();
             }
-            await _api.UpdateEngineerAsync(Engineer.Id, Engineer);
+            await _api.UpdateEngineerAsync(Engineer.EngineerId, Engineer);
             return RedirectToPage("/Engineers/Index");
         }
     }

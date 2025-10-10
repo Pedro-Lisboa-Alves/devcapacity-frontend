@@ -36,11 +36,11 @@ else
         @foreach (var e in Model.AssignedEngineers)
         {
           <tr>
-            <td>@e.Id</td>
+            <td>@e.EngineerId</td>
             <td>@e.Name</td>
             <td>@e.Role</td>
             <td>
-              <a class="btn btn-sm btn-secondary" href="/Engineers/Edit?id=@e.Id">Edit</a>
+              <a class="btn btn-sm btn-secondary" href="/Engineers/Edit?id=@e.EngineerId">Edit</a>
             </td>
           </tr>
         }

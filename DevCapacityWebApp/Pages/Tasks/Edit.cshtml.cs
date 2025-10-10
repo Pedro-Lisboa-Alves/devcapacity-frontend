@@ -115,7 +115,7 @@ namespace DevCapacityWebApp.Pages.Tasks
                         {
                             foreach (var val in kv.Value)
                             {
-                                if (int.TryParse(val, out var possible) && Engineers != null && Engineers.Exists(x => x.Id == possible))
+                                if (int.TryParse(val, out var possible) && Engineers != null && Engineers.Exists(x => x.EngineerId == possible))
                                 {
                                     NewAssignment.EngineerId = possible;
                                     break;

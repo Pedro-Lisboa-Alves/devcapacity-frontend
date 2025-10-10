@@ -43,28 +43,28 @@ namespace DevCapacityWebApp.Services
         // Teams
         public async Task<List<Team>> GetTeamsAsync()
         {
-            var list = await _http.GetFromJsonAsync<List<Team>>("/teams");
+            var list = await _http.GetFromJsonAsync<List<Team>>("/team");
             return list ?? new List<Team>();
         }
 
         public Task<Team?> GetTeamAsync(int id) =>
-            _http.GetFromJsonAsync<Team>($"/teams/{id}");
+            _http.GetFromJsonAsync<Team>($"/team/{id}");
 
         public async Task<bool> CreateTeamAsync(Team t)
         {
-            var r = await _http.PostAsJsonAsync("/teams", t);
+            var r = await _http.PostAsJsonAsync("/team", t);
             return r.IsSuccessStatusCode;
         }
 
         public async Task<bool> UpdateTeamAsync(int id, Team t)
         {
-            var r = await _http.PutAsJsonAsync($"/teams/{id}", t);
+            var r = await _http.PutAsJsonAsync($"/team/{id}", t);
             return r.IsSuccessStatusCode;
         }
 
         public async Task<bool> DeleteTeamAsync(int id)
         {
-            var r = await _http.DeleteAsync($"/teams/{id}");
+            var r = await _http.DeleteAsync($"/team/{id}");
             return r.IsSuccessStatusCode;
         }
 
@@ -140,13 +140,13 @@ namespace DevCapacityWebApp.Services
 
         public async Task<bool> CreateAssignmentAsync(EngineerAssignment a)
         {
-            var r = await _http.PostAsJsonAsync("/assignments", a);
+            var r = await _http.PostAsJsonAsync("/EngineerAssignment", a);
             return r.IsSuccessStatusCode;
         }
 
         public async Task<bool> DeleteAssignmentAsync(int id)
         {
-            var r = await _http.DeleteAsync($"/assignments/{id}");
+            var r = await _http.DeleteAsync($"/EngineerAssignment/{id}");
             return r.IsSuccessStatusCode;
         }
     }
