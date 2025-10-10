@@ -82,9 +82,11 @@
 <h4>Engineer Assignments</h4>
 
 <form method="post" asp-page-handler="AddAssignment" class="row g-2 mb-3">
+  <!-- ensure TaskId and EngineerId are sent with exact names used by model binding -->
   <input type="hidden" name="NewAssignment.TaskId" value="@Model.Task.TaskId" />
-  <div class="col-md-5">
-    <select class="form-select" name="NewAssignment.EngineerId" required>
+
+  <div class="col-md-6">
+    <select class="form-select" asp-for="NewAssignment.EngineerId" name="NewAssignment.EngineerId" required>
       <option value="">-- Select Engineer --</option>
       @if (Model.Engineers != null)
       {
@@ -95,33 +97,29 @@
       }
     </select>
   </div>
-  <div class="col-md-4">
-    <input class="form-control" name="NewAssignment.Role" placeholder="Role (optional)" />
-  </div>
-  <div class="col-md-2">
-    <input class="form-control" name="NewAssignment.Hours" placeholder="Hours" />
-  </div>
-  <div class="col-md-1">
+
+  <div class="col-md-1 d-flex align-items-start">
     <button class="btn btn-primary" type="submit">Add</button>
   </div>
 </form>
 
 <div class="table-responsive">
   <table class="table table-sm">
-    <thead><tr><th>Id</th><th>Engineer</th><th>Role</th><th>Hours</th><th></th></tr></thead>
+    <thead><tr><th>Id</th><th>Engineer</th><th>Capacity</th><th>Start</th><th>End</th><th></th></tr></thead>
     <tbody>
       @if (Model.Assignments != null)
       {
         @foreach(var a in Model.Assignments)
         {
           <tr>
-            <td>@a.Id</td>
+            <td>@a.AssignmentId</td>
             <td>@Model.Engineers.FirstOrDefault(x => x.Id == a.EngineerId)?.Name</td>
-            <td>@a.Role</td>
-            <td>@a.Hours</td>
+            <td>@a.CapacityShare</td>
+            <td>@(a.StartDate != default(System.DateTime) ? a.StartDate.ToString("yyyy-MM-dd") : "")</td>
+            <td>@(a.EndDate != default(System.DateTime) ? a.EndDate.ToString("yyyy-MM-dd") : "")</td>
             <td>
               <form method="post" asp-page-handler="DeleteAssignment" class="d-inline">
-                <input type="hidden" name="id" value="@a.Id" />
+                <input type="hidden" name="id" value="@a.AssignmentId" />
                 <button class="btn btn-sm btn-danger" type="submit">Remove</button>
               </form>
             </td>
