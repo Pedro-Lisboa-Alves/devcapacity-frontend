@@ -134,7 +134,7 @@ namespace DevCapacityWebApp.Services
         // Engineer assignments (for Tasks)
         public async Task<List<EngineerAssignment>> GetAssignmentsForTaskAsync(int taskId)
         {
-            var list = await _http.GetFromJsonAsync<List<EngineerAssignment>>($"/tasks/{taskId}/assignments");
+            var list = await _http.GetFromJsonAsync<List<EngineerAssignment>>($"/EngineerAssignment/task/{taskId}");
             return list ?? new List<EngineerAssignment>();
         }
 
