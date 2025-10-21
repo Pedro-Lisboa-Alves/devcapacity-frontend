@@ -142,11 +142,11 @@ namespace DevCapacityWebApp.Pages.Tasks
             return RedirectToPage(new { id = NewAssignment.TaskId });
         }
 
-        public async Task<IActionResult> OnPostDeleteAssignmentAsync(int id)
+        public async Task<IActionResult> OnPostDeleteAssignmentAsync(int id, int taskId)
         {
             await _api.DeleteAssignmentAsync(id);
-            // remain on same task page
-            return Redirect(Request.Path + Request.QueryString);
+            // redireciona explicitamente para a página de edição da task com o taskId correto
+            return RedirectToPage(new { id = taskId });
         }
     }
 }

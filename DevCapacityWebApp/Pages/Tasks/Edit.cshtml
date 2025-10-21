@@ -120,6 +120,7 @@
             <td>
               <form method="post" asp-page-handler="DeleteAssignment" class="d-inline">
                 <input type="hidden" name="id" value="@a.AssignmentId" />
+                <input type="hidden" name="taskId" value="@Model.Task.TaskId" />
                 <button class="btn btn-sm btn-danger" type="submit">Remove</button>
               </form>
             </td>
