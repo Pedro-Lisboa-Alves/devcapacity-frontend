@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using DevCapacityWebApp.Models;
 
 namespace DevCapacityWebApp.Services
 {
-    public class DevCapacityApiClient
+    public partial class DevCapacityApiClient
     {
         private readonly HttpClient _http;
         public DevCapacityApiClient(HttpClient http) => _http = http;
@@ -149,5 +148,9 @@ namespace DevCapacityWebApp.Services
             var r = await _http.DeleteAsync($"/EngineerAssignment/{id}");
             return r.IsSuccessStatusCode;
         }
+
+        // retorna o engineer com calendar (ajuste endpoint se necessário)
+        public Task<EngineerDto?> GetEngineerDetailedAsync(int id) =>
+            _http.GetFromJsonAsync<EngineerDto>($"/engineers/{id}");
     }
 }
