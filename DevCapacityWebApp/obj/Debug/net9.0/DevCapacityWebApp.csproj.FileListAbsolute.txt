@@ -18,7 +18,6 @@
 /Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/scopedcss/Pages/Shared/_Layout.cshtml.rz.scp.css
 /Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/scopedcss/bundle/DevCapacityWebApp.styles.css
 /Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/scopedcss/projectbundle/DevCapacityWebApp.bundle.scp.css
-/Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/compressed/wtz2q6fmvi-b9sayid5wm.gz
 /Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/compressed/inim9122ec-61n19gt1b8.gz
 /Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/compressed/r6z1fc12w0-xtxxf3hu2r.gz
 /Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/compressed/1pibxki7fg-bqjiyaj88i.gz
@@ -93,3 +92,4 @@
 /Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/ref/DevCapacityWebApp.dll
 /Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/compressed/b4w5s2rs12-n60uvaaaon.gz
 /Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/compressed/l5y5pjuliu-djebon5sfl.gz
+/Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/compressed/wtz2q6fmvi-vx85mhbpe9.gz

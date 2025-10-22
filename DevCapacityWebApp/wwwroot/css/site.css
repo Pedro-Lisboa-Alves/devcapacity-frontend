@@ -21,6 +21,82 @@ body {
   margin-bottom: 60px;
 }
 
+/* Responsive layout tweaks */
+
+body {
+  min-height: 100vh;
+}
+
+/* sidebar */
+.sidebar-collapse {
+  min-height: 100vh;
+  padding: 0;
+}
+
+/* ensure sidebar partial takes full width inside column */
+.sidebar {
+  padding: 1rem;
+}
+
+/* desktop: fix sidebar width visually (col handles layout) */
+@media (min-width: 768px) {
+  #sidebarColumn {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+}
+
+/* small screens: collapse sidebar by default, show when .open-sm present */
+@media (max-width: 767.98px) {
+  #sidebarColumn {
+    display: none;
+    position: fixed;
+    z-index: 1050;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 260px;
+    box-shadow: 0 0 16px rgba(0,0,0,0.15);
+    overflow-y: auto;
+    background: #fff;
+  }
+  #sidebarColumn.open-sm {
+    display: block;
+  }
+  main {
+    padding-top: 0.5rem;
+  }
+}
+
+/* tables and cards: make scrollable on small screens */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* form controls full width on small */
+@media (max-width: 767.98px) {
+  .row.g-2 > .col-md-2,
+  .row.g-2 > .col-md-3,
+  .row.g-2 > .col-md-4,
+  .row.g-2 > .col-md-5,
+  .row.g-2 > .col-md-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .d-flex.gap-2 {
+    flex-direction: column;
+    gap: .5rem;
+  }
+}
+
+/* small utility */
+.mb-sm-3 {
+  margin-bottom: 1rem;
+}
+
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
   text-align: end;
