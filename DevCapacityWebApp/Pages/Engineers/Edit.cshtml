@@ -28,10 +28,10 @@
 
   <div class="col-auto">
     <label class="form-label">Filter by Type</label>
-      <select class="form-select" name="FilterType" asp-for="FilterType">
+    <select class="form-select" name="FilterType" asp-for="FilterType">
       @foreach (var t in Model.AvailableTypes)
       {
-        @if (t == Model.FilterType)
+        if (t == Model.FilterType)
         {
           <option value="@t" selected>@t</option>
         }
@@ -42,12 +42,30 @@
       }
     </select>
   </div>
+
+  <div class="col-auto">
+    <label class="form-label">Page Size</label>
+    <select class="form-select" name="PageSize" asp-for="PageSize">
+      @foreach (var s in Model.PageSizeOptions)
+      {
+        if (s == Model.PageSize)
+        {
+          <option value="@s" selected>@s</option>
+        }
+        else
+        {
+          <option value="@s">@s</option>
+        }
+      }
+    </select>
+  </div>
+
   <div class="col-auto">
     <button class="btn btn-outline-primary">Apply</button>
   </div>
 </form>
 
-@if (Model.CalendarDays == null || Model.CalendarDays.Count == 0)
+@if (Model.PagedCalendarDays == null || Model.PagedCalendarDays.Count == 0)
 {
   <p class="text-muted">No calendar days for this engineer with the selected filter.</p>
 }
@@ -62,7 +80,7 @@ else
         </tr>
       </thead>
       <tbody>
-        @foreach (var d in Model.CalendarDays)
+        @foreach (var d in Model.PagedCalendarDays)
         {
           <tr>
             <td>@d.Date.ToString("yyyy-MM-dd")</td>
@@ -72,4 +90,25 @@ else
       </tbody>
     </table>
   </div>
+
+  <nav aria-label="Pagination" class="mt-2">
+    <ul class="pagination">
+      <li class="page-item @(Model.Page <= 1 ? "disabled" : "")">
+        <a class="page-link" href="?id=@Model.Engineer.EngineerId&FilterType=@Model.FilterType&Page=@(Model.Page-1)&PageSize=@Model.PageSize">Previous</a>
+      </li>
+
+      @for (int p = 1; p <= Model.TotalPages; p++)
+      {
+        <li class="page-item @(p == Model.Page ? "active" : "")">
+          <a class="page-link" href="?id=@Model.Engineer.EngineerId&FilterType=@Model.FilterType&Page=@p&PageSize=@Model.PageSize">@p</a>
+        </li>
+      }
+
+      <li class="page-item @(Model.Page >= Model.TotalPages ? "disabled" : "")">
+        <a class="page-link" href="?id=@Model.Engineer.EngineerId&FilterType=@Model.FilterType&Page=@(Model.Page+1)&PageSize=@Model.PageSize">Next</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="text-muted mt-1">Showing page @Model.Page of @Model.TotalPages — @Model.TotalCount records total.</div>
 }

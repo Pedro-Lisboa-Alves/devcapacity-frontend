@@ -16,8 +16,6 @@ namespace DevCapacityWebApp.Pages.Engineers
 
         [BindProperty]
         public Engineer Engineer { get; set; } = new();
-
-        // detailed DTO including calendar days
         public EngineerDto? EngineerDetailed { get; set; }
 
         public List<EngineerCalendarDayDto> CalendarDays { get; set; } = new();
@@ -26,11 +24,26 @@ namespace DevCapacityWebApp.Pages.Engineers
         [BindProperty(SupportsGet = true)]
         public string FilterType { get; set; } = EngineerCalendarDayType.Assigned.ToString();
 
+        // pagination (querystring)
+        [BindProperty(SupportsGet = true)]
+        public int Page { get; set; } = 1;
+
+        [BindProperty(SupportsGet = true)]
+        public int PageSize { get; set; } = 10;
+
         public List<string> AvailableTypes { get; set; } = Enum.GetNames(typeof(EngineerCalendarDayType)).ToList();
+
+        // results for the current page
+        public List<EngineerCalendarDayDto> PagedCalendarDays { get; set; } = new();
+
+        public int TotalCount { get; set; }
+        public int TotalPages { get; set; }
+
+        public List<int> PageSizeOptions { get; set; } = new() { 5, 10, 20, 50 };
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            // fallback: aceitar id via route/query ou via Engineer.EngineerId vindo do form
+            // determine effective id from route/query/form (existing fallback behaviour)
             var effectiveId = id ?? 0;
             if (effectiveId <= 0)
             {
@@ -45,67 +58,51 @@ namespace DevCapacityWebApp.Pages.Engineers
                 }
             }
 
-            // se ainda for inválido, apenas renderiza a página (ou redireccione conforme desejado)
             if (effectiveId <= 0)
                 return Page();
 
-            // load basic engineer (existing behaviour)
+            // load basic engineer
             var basic = await _api.GetEngineerAsync(effectiveId);
             if (basic != null)
             {
                 Engineer = basic;
             }
 
-            // load detailed DTO (calendar)
+            // load detailed (calendar)
             EngineerDetailed = await _api.GetEngineerDetailedAsync(effectiveId);
 
             CalendarDays = EngineerDetailed?.EngineerCalendar?.Days
                 .OrderBy(d => d.Date)
                 .ToList() ?? new List<EngineerCalendarDayDto>();
 
+            // apply filter
             ApplyFilter();
 
+            // pagination
+            TotalCount = CalendarDays.Count;
+            if (PageSize <= 0) PageSize = 10;
+            TotalPages = (int)Math.Ceiling(TotalCount / (double)PageSize);
+            if (TotalPages == 0) TotalPages = 1;
+            if (Page < 1) Page = 1;
+            if (Page > TotalPages) Page = TotalPages;
+
+            PagedCalendarDays = CalendarDays
+                .Skip((Page - 1) * PageSize)
+                .Take(PageSize)
+                .ToList();
+
             return Page();
-        }
-
-        public async Task<IActionResult> OnPostAsync()
-        {
-            // garantir que temos o id vindo do form; se não, tentar query/route
-            if (Engineer == null || Engineer.EngineerId == 0)
-            {
-                var qs = Request.Form["Engineer.EngineerId"].ToString();
-                if (!string.IsNullOrEmpty(qs) && int.TryParse(qs, out var fid))
-                    Engineer.EngineerId = fid;
-                else
-                {
-                    var q = Request.Query["id"].ToString();
-                    if (!string.IsNullOrEmpty(q) && int.TryParse(q, out var qid))
-                        Engineer.EngineerId = qid;
-                    else if (RouteData.Values.TryGetValue("id", out var ridObj) && int.TryParse(ridObj?.ToString(), out var rid))
-                        Engineer.EngineerId = rid;
-                }
-            }
-
-            if (!ModelState.IsValid)
-            {
-                // reload detailed info for rendering the page again
-                EngineerDetailed = await _api.GetEngineerDetailedAsync(Engineer.EngineerId);
-                CalendarDays = EngineerDetailed?.EngineerCalendar?.Days.OrderBy(d => d.Date).ToList() ?? new List<EngineerCalendarDayDto>();
-                ApplyFilter();
-                return Page();
-            }
-
-            await _api.UpdateEngineerAsync(Engineer.EngineerId, Engineer);
-            return RedirectToPage(new { id = Engineer.EngineerId });
         }
 
         // apply filter to CalendarDays using FilterType
         private void ApplyFilter()
         {
-            if (string.IsNullOrEmpty(FilterType)) return;
-            CalendarDays = CalendarDays
-                .Where(d => string.Equals(d.Type ?? string.Empty, FilterType, StringComparison.OrdinalIgnoreCase))
-                .ToList();
+            if (!string.IsNullOrEmpty(FilterType))
+            {
+                CalendarDays = CalendarDays
+                    .Where(d => string.Equals(d.Type ?? string.Empty, FilterType, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
         }
     }
 }
