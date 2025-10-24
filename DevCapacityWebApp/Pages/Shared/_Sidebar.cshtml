@@ -1,25 +1,30 @@
-<aside class="sidebar" id="appSidebar" aria-hidden="false">
-  <div class="sidebar-header">
-    <button id="sidebarClose" class="sidebar-close" aria-label="Close sidebar">✕</button>
-    <div class="brand">Develompent Capacity Managment</div>
+<aside class="sidebar p-3" id="appSidebar" aria-hidden="false">
+  <div class="sidebar-header mb-3 d-flex align-items-center justify-content-between">
+    <div class="brand h6 mb-0">Development Capacity Management</div>
+    <button id="sidebarClose" class="btn btn-sm btn-outline-secondary" aria-label="Close sidebar">✕</button>
   </div>
 
   <nav class="sidebar-nav" aria-label="Main navigation">
-    <ul>
-      <li>
-        <a class="nav-item @(Context.Request.Path == "/" ? "active" : "")" href="/">Timeline</a>
+    <ul class="list-unstyled m-0">
+      <li class="mb-1">
+        <a class="btn sidebar-btn w-100 text-start @(Context.Request.Path == "/" ? "fw-bold" : "")"
+           href="/">Timeline</a>
       </li>
-      <li>
-        <a class="nav-item @(Context.Request.Path.StartsWithSegments("/Engineers") ? "active" : "")" href="/Engineers">Engineers</a>
+      <li class="mb-1">
+        <a class="btn sidebar-btn w-100 text-start @(Context.Request.Path.StartsWithSegments("/Engineers") ? "fw-bold" : "")"
+           href="/Engineers">Engineers</a>
       </li>
-      <li>
-        <a class="nav-item @(Context.Request.Path.StartsWithSegments("/Teams") ? "active" : "")" href="/Teams">Teams</a>
+      <li class="mb-1">
+        <a class="btn sidebar-btn w-100 text-start @(Context.Request.Path.StartsWithSegments("/Teams") ? "fw-bold" : "")"
+           href="/Teams">Teams</a>
       </li>
-      <li>
-        <a class="nav-item @(Context.Request.Path.StartsWithSegments("/Tasks") ? "active" : "")" href="/Tasks">Tasks</a>
+      <li class="mb-1">
+        <a class="btn sidebar-btn w-100 text-start @(Context.Request.Path.StartsWithSegments("/Initiatives") ? "fw-bold" : "")"
+           href="/Initiatives">Initiatives</a>
       </li>
-      <li>
-        <a class="nav-item @(Context.Request.Path.StartsWithSegments("/Initiatives") ? "active" : "")" href="/Initiatives">Initiatives</a>
+      <li class="mb-1">
+        <a class="btn sidebar-btn w-100 text-start @(Context.Request.Path.StartsWithSegments("/Tasks") ? "fw-bold" : "")"
+           href="/Tasks">Tasks</a>
       </li>
     </ul>
   </nav>

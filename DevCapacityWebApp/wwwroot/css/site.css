@@ -105,3 +105,27 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+/* Sidebar button style: white background, dark border/text, hover darker */
+.sidebar-btn {
+  background-color: #ffffff;
+  color: #111827; /* near-black text */
+  border: 1px solid #212529; /* dark border */
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  text-decoration: none;
+}
+
+.sidebar-btn:hover,
+.sidebar-btn:focus {
+  background-color: #f8f9fa; /* slightly gray on hover */
+  color: #000;
+  text-decoration: none;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+/* active / current page emphasis */
+.sidebar-btn.fw-bold {
+  background-color: #212529; /* dark background for active */
+  color: #fff;
+}
