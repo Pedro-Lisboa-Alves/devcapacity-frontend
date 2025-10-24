@@ -1,6 +1,5 @@
 @page
 @model DevCapacityWebApp.Pages.Timeline.IndexModel
-@removeTagHelper "Microsoft.AspNetCore.Mvc.TagHelpers.OptionTagHelper, Microsoft.AspNetCore.Mvc.TagHelpers"
 @await Html.PartialAsync("_Tabs")
 
 <div class="container-fluid">
@@ -16,19 +15,36 @@
           <select class="form-select" name="Year" asp-for="Year">
             @for (int y = DateTime.Today.Year - 2; y <= DateTime.Today.Year + 1; y++)
             {
-              <option value="@y" @(y == Model.Year ? "selected" : "")>@y</option>
+              <option value="@y" selected="@(y == Model.Year ? "selected" : null)">@y</option>
             }
           </select>
         </div>
+
+        <div class="col-auto">
+          <label class="form-label">Months</label>
+          @* multi-select months: current month selected by default *@
+          <select class="form-select" asp-for="SelectedMonths" name="SelectedMonths" multiple size="4">
+            @for (int m = 1; m <= 12; m++)
+            {
+              var dt = new DateTime(Model.Year, m, 1);
+              <option value="@m" selected="@(Model.SelectedMonths != null && Model.SelectedMonths.Contains(m) ? "selected" : null)">
+                @dt.ToString("MMMM")
+              </option>
+            }
+          </select>
+        </div>
+
         <div class="col-auto">
           <label class="form-label">Rows</label>
           <select class="form-select" name="PageSize" asp-for="PageSize">
             @foreach (var s in Model.PageSizeOptions)
             {
-              <option value="@s" @(s == Model.PageSize ? "selected" : "")>@s</option>
+              var selectedAttr = s == Model.PageSize ? " selected" : "";
+              @Html.Raw("<option value=\"" + s + "\"" + selectedAttr + ">" + s + "</option>")
             }
           </select>
         </div>
+
         <div class="col-auto align-self-end">
           <button class="btn btn-primary">Apply</button>
         </div>
@@ -36,13 +52,13 @@
     </div>
   </div>
 
+  @* existing rendering of months uses Model.MonthsToRender *@
   @if (Model.PagedEngineers == null || Model.PagedEngineers.Count == 0)
   {
     <p class="text-muted">No engineers to display.</p>
   }
   else
   {
-    @* Render month-by-month matrices *@
     @foreach (var month in Model.MonthsToRender)
     {
       var daysInMonth = DateTime.DaysInMonth(Model.Year, month);
@@ -71,15 +87,7 @@
                   <tr>
                     <td style="min-width:200px;padding:0.25rem">@eng.Name</td>
                     @{
-                      // build dictionary for quick lookup without referencing EngineerCalendarDayDto
-                      var dict = new Dictionary<DateTime, dynamic>();
-                      if (eng.EngineerCalendar?.Days != null)
-                      {
-                        foreach (var d in eng.EngineerCalendar.Days)
-                        {
-                          dict[d.Date.Date] = d;
-                        }
-                      }
+                      var dict = eng.EngineerCalendar?.Days?.ToDictionary(x => x.Date.Date, x => (dynamic)x) ?? new Dictionary<DateTime, dynamic>();
                     }
                     @for (int d = 1; d <= daysInMonth; d++)
                     {
@@ -101,6 +109,7 @@
       </div>
     }
 
+    @* pagination markup remains the same *@
     <nav aria-label="Timeline pagination" class="mt-2">
       <ul class="pagination">
         <li class="page-item @(Model.Page <= 1 ? "disabled" : "")">
