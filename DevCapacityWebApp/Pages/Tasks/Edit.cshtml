@@ -1,6 +1,6 @@
 @page
 @model DevCapacityWebApp.Pages.Tasks.EditModel
-@await Html.PartialAsync("_Tabs")
+@await Html.PartialAsync("_Sidebar")
 
 <h3>Edit Task</h3>
 
@@ -13,20 +13,20 @@
   <div class="row g-2 mb-2">
     <div class="col-md-3">
       <label class="form-label">Initiative</label>
-      <select class="form-select" asp-for="Task.Initiative" name="Task.Initiative">
+      <select class="form-select" asp-for="Task.Initiative">
         <option value="">-- Select Initiative --</option>
         @if (Model.Initiatives != null)
         {
           @foreach(var i in Model.Initiatives)
           {
-            if (i.InitiativeId == Model.Task.Initiative)
-            {
-              <option value="@i.InitiativeId" selected="selected">@i.Name</option>
-            }
-            else
-            {
-              <option value="@i.InitiativeId">@i.Name</option>
-            }
+              if (i.InitiativeId == Model.Task.Initiative)
+              {
+                  <option value="@i.InitiativeId" selected>@i.Name</option>
+              }
+              else
+              {
+                  <option value="@i.InitiativeId">@i.Name</option>
+              }
           }
         }
       </select>
@@ -34,7 +34,7 @@
 
     <div class="col-md-3">
       <label class="form-label">Status</label>
-      <select class="form-select" asp-for="Task.Status" name="Task.Status">
+      <select class="form-select" asp-for="Task.Status">
         <option value="">-- Select Status --</option>
         @if (Model.Statuses != null)
         {
@@ -42,7 +42,7 @@
           {
             if (s.StatusId == Model.Task.Status)
             {
-              <option value="@s.StatusId" selected="selected">@s.Name</option>
+              <option value="@s.StatusId" selected>@s.Name</option>
             }
             else
             {
@@ -59,14 +59,19 @@
     </div>
 
     <div class="col-md-2">
+      <label class="form-label">Max Resources</label>
+      <input class="form-control" type="number" asp-for="Task.MaxResources" min="0" />
+    </div>
+
+    <div class="col-md-2">
       <label class="form-label">Start Date</label>
-      <input class="form-control" type="date" name="Task.StartDate"
+      <input class="form-control" type="date" asp-for="Task.StartDate"
              value="@(Model.Task.StartDate != default(System.DateTime) ? Model.Task.StartDate.ToString("yyyy-MM-dd") : "")" />
     </div>
 
     <div class="col-md-2">
       <label class="form-label">End Date</label>
-      <input class="form-control" type="date" name="Task.EndDate"
+      <input class="form-control" type="date" asp-for="Task.EndDate"
              value="@(Model.Task.EndDate != default(System.DateTime) ? Model.Task.EndDate.ToString("yyyy-MM-dd") : "")" />
     </div>
   </div>

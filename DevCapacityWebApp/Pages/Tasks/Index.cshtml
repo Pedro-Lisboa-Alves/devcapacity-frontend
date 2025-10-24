@@ -1,12 +1,24 @@
 @page
 @model DevCapacityWebApp.Pages.Tasks.IndexModel
-@await Html.PartialAsync("_Tabs")
+@await Html.PartialAsync("_Sidebar")
 
 <div class="card">
   <h3>Tasks</h3>
   <div class="table-responsive">
     <table class="table table-sm">
-      <thead><tr><th>Id</th><th>Name</th><th>Initiative</th><th>Status</th><th>PDs</th><th>Start</th><th>End</th><th></th></tr></thead>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Initiative</th>
+          <th>Status</th>
+          <th>PDs</th>
+          <th>Max Resources</th> <!-- ADICIONADO -->
+          <th>Start</th>
+          <th>End</th>
+          <th></th>
+        </tr>
+      </thead>
       <tbody>
       @foreach(var t in Model.Tasks)
       {
@@ -16,6 +28,7 @@
           <td>@Model.Initiatives?.Find(x => x.InitiativeId == t.Initiative)?.Name</td>
           <td>@Model.Statuses?.Find(s => s.StatusId == t.Status)?.Name</td>
           <td>@t.PDs</td>
+          <td>@t.MaxResources</td> <!-- ADICIONADO -->
           <td>@(t.StartDate != default(System.DateTime) ? t.StartDate.ToString("yyyy-MM-dd") : "")</td>
           <td>@(t.EndDate != default(System.DateTime) ? t.EndDate.ToString("yyyy-MM-dd") : "")</td>
           <td class="table-actions">
@@ -62,10 +75,17 @@
       <label class="form-label">PDs</label>
       <input class="form-control" type="number" name="NewTask.PDs" />
     </div>
+
+    <div class="col-md-2">
+      <label class="form-label">Max Resources</label>
+      <input class="form-control" type="number" name="NewTask.MaxResources" value="0" min="0" />
+    </div>
+
     <div class="col-md-2">
       <label class="form-label">Start Date</label>
       <input class="form-control" type="date" name="NewTask.StartDate" />
     </div>
+
     <div class="col-md-2">
       <label class="form-label">End Date</label>
       <input class="form-control" type="date" name="NewTask.EndDate" />

@@ -11,6 +11,10 @@ namespace DevCapacityWebApp.Models
         public int Initiative { get; set; }
         public int Status { get; set; }
         public int PDs { get; set; }
+
+        // ADICIONADO: limite de recursos para a task
+        public int MaxResources { get; set; }
+
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
