@@ -1,0 +1,123 @@
+@page
+@model DevCapacityWebApp.Pages.Timeline.IndexModel
+@removeTagHelper "Microsoft.AspNetCore.Mvc.TagHelpers.OptionTagHelper, Microsoft.AspNetCore.Mvc.TagHelpers"
+@await Html.PartialAsync("_Tabs")
+
+<div class="container-fluid">
+  <div class="row mb-2">
+    <div class="col-12 col-md-6">
+      <h3>Timeline — @Model.Year</h3>
+    </div>
+    <div class="col-12 col-md-6">
+      <form method="get" class="row g-2 justify-content-end">
+        <input type="hidden" name="Page" value="1" />
+        <div class="col-auto">
+          <label class="form-label">Year</label>
+          <select class="form-select" name="Year" asp-for="Year">
+            @for (int y = DateTime.Today.Year - 2; y <= DateTime.Today.Year + 1; y++)
+            {
+              <option value="@y" @(y == Model.Year ? "selected" : "")>@y</option>
+            }
+          </select>
+        </div>
+        <div class="col-auto">
+          <label class="form-label">Rows</label>
+          <select class="form-select" name="PageSize" asp-for="PageSize">
+            @foreach (var s in Model.PageSizeOptions)
+            {
+              <option value="@s" @(s == Model.PageSize ? "selected" : "")>@s</option>
+            }
+          </select>
+        </div>
+        <div class="col-auto align-self-end">
+          <button class="btn btn-primary">Apply</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  @if (Model.PagedEngineers == null || Model.PagedEngineers.Count == 0)
+  {
+    <p class="text-muted">No engineers to display.</p>
+  }
+  else
+  {
+    @* Render month-by-month matrices *@
+    @foreach (var month in Model.MonthsToRender)
+    {
+      var daysInMonth = DateTime.DaysInMonth(Model.Year, month);
+      var monthName = new DateTime(Model.Year, month, 1).ToString("MMMM");
+      <div class="card mb-3">
+        <div class="card-body p-2">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <strong>@monthName @Model.Year</strong>
+            <small class="text-muted">Days: @daysInMonth</small>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-sm table-bordered mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th style="min-width:200px">Engineer</th>
+                  @for (int d = 1; d <= daysInMonth; d++)
+                  {
+                    <th class="text-center" style="width:28px;padding:0.25rem">@d</th>
+                  }
+                </tr>
+              </thead>
+              <tbody>
+                @foreach (var eng in Model.PagedEngineers)
+                {
+                  <tr>
+                    <td style="min-width:200px;padding:0.25rem">@eng.Name</td>
+                    @{
+                      // build dictionary for quick lookup without referencing EngineerCalendarDayDto
+                      var dict = new Dictionary<DateTime, dynamic>();
+                      if (eng.EngineerCalendar?.Days != null)
+                      {
+                        foreach (var d in eng.EngineerCalendar.Days)
+                        {
+                          dict[d.Date.Date] = d;
+                        }
+                      }
+                    }
+                    @for (int d = 1; d <= daysInMonth; d++)
+                    {
+                      var dt = new DateTime(Model.Year, month, d);
+                      var type = dict.ContainsKey(dt) ? dict[dt].Type ?? "" : "";
+                      <td class="text-center" style="padding:0.15rem;">
+                        @if (!string.IsNullOrEmpty(type))
+                        {
+                          <span class="badge bg-secondary">@type</span>
+                        }
+                      </td>
+                    }
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    }
+
+    <nav aria-label="Timeline pagination" class="mt-2">
+      <ul class="pagination">
+        <li class="page-item @(Model.Page <= 1 ? "disabled" : "")">
+          <a class="page-link" href="?Year=@Model.Year&Page=@(Model.Page-1)&PageSize=@Model.PageSize">Previous</a>
+        </li>
+        @for (int p = 1; p <= Model.TotalPages; p++)
+        {
+          <li class="page-item @(p == Model.Page ? "active" : "")">
+            <a class="page-link" href="?Year=@Model.Year&Page=@p&PageSize=@Model.PageSize">@p</a>
+          </li>
+        }
+        <li class="page-item @(Model.Page >= Model.TotalPages ? "disabled" : "")">
+          <a class="page-link" href="?Year=@Model.Year&Page=@(Model.Page+1)&PageSize=@Model.PageSize">Next</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="text-muted">Showing page @Model.Page of @Model.TotalPages — @Model.TotalCount engineers total.</div>
+  }
+</div>

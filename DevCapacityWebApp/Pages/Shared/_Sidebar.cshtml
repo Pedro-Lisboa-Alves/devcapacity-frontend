@@ -7,8 +7,8 @@
   <nav class="sidebar-nav" aria-label="Main navigation">
     <ul class="list-unstyled m-0">
       <li class="mb-1">
-        <a class="btn sidebar-btn w-100 text-start @(Context.Request.Path == "/" ? "fw-bold" : "")"
-           href="/">Timeline</a>
+        <a class="btn sidebar-btn w-100 text-start @(Context.Request.Path.StartsWithSegments("/Timeline") ? "fw-bold" : "")"
+           href="/Timeline">Timeline</a>
       </li>
       <li class="mb-1">
         <a class="btn sidebar-btn w-100 text-start @(Context.Request.Path.StartsWithSegments("/Engineers") ? "fw-bold" : "")"
