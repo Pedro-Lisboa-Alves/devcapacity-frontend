@@ -87,16 +87,34 @@
                   <tr>
                     <td style="min-width:200px;padding:0.25rem">@eng.Name</td>
                     @{
-                      var dict = eng.EngineerCalendar?.Days?.ToDictionary(x => x.Date.Date, x => (dynamic)x) ?? new Dictionary<DateTime, dynamic>();
+                      // build a dictionary of days keyed by date without referencing a specific DTO type
+                      var dict = new Dictionary<DateTime, dynamic>();
+                      if (eng.EngineerCalendar?.Days != null)
+                      {
+                        foreach (var x in eng.EngineerCalendar.Days)
+                        {
+                          dict[x.Date.Date] = x;
+                        }
+                      }
                     }
-                    @for (int d = 1; d <= daysInMonth; d++)
+                      @for (int d = 1; d <= daysInMonth; d++)
                     {
                       var dt = new DateTime(Model.Year, month, d);
                       var type = dict.ContainsKey(dt) ? dict[dt].Type ?? "" : "";
                       <td class="text-center" style="padding:0.15rem;">
                         @if (!string.IsNullOrEmpty(type))
                         {
-                          <span class="badge bg-secondary">@type</span>
+                              // map type to badge CSS class
+                              var badgeClass = type switch
+                              {
+                                  "Available" => "badge-available",
+                                  "Vacations" => "badge-vacations",
+                                  "Weekends" => "badge-weekends",
+                                  "Absence" => "badge-absence",
+                                  "Assigned" => "badge-assigned",
+                                  _ => "badge-secondary"
+                              };
+                          <span class="badge @badgeClass" title="@type">@type</span>
                         }
                       </td>
                     }

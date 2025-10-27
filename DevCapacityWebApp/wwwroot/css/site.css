@@ -129,3 +129,44 @@ body {
   background-color: #212529; /* dark background for active */
   color: #fff;
 }
+
+/* Badges for engineer calendar day types */
+.badge-available {
+  background-color: #d4f7d6; /* light green */
+  color: #0b5345;
+  border-radius: 0.25rem;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.35rem;
+}
+
+.badge-vacations {
+  background-color: #7b61ff; /* violet */
+  color: #fff;
+  border-radius: 0.25rem;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.35rem;
+}
+
+.badge-weekends {
+  background-color: #adb5bd; /* grey */
+  color: #212529;
+  border-radius: 0.25rem;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.35rem;
+}
+
+.badge-absence {
+  background-color: #f8d7da; /* light red */
+  color: #842029;
+  border-radius: 0.25rem;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.35rem;
+}
+
+.badge-assigned {
+  background-color: #0d6efd; /* blue */
+  color: #fff;
+  border-radius: 0.25rem;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.35rem;
+}

@@ -134,7 +134,7 @@ namespace DevCapacityWebApp.Pages.Tasks
             }
 
             // Defaults para campos readonly esperados pela API
-            NewAssignment.CapacityShare = NewAssignment.CapacityShare == 0 ? 100 : NewAssignment.CapacityShare;
+            NewAssignment.CapacityShare = NewAssignment.CapacityShare == 0 ? 0 : NewAssignment.CapacityShare;
             if (NewAssignment.StartDate == default) NewAssignment.StartDate = DateTime.Today;
             if (NewAssignment.EndDate == default) NewAssignment.EndDate = DateTime.Today;
 
