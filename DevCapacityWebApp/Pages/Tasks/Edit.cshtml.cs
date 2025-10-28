@@ -87,6 +87,23 @@ namespace DevCapacityWebApp.Pages.Tasks
             Engineers = await _api.GetEngineersAsync();
             Assignments = await _api.GetAssignmentsForTaskAsync(NewAssignment.TaskId) ?? new List<EngineerAssignment>();
 
+            // garantir Task carregada para validar MaxResources
+            if (Task == null || Task.TaskId == 0 || Task.TaskId != NewAssignment.TaskId)
+            {
+                Task = await _api.GetTaskAsync(NewAssignment.TaskId) ?? new DevCapacityWebApp.Models.Tasks();
+            }
+
+            // validação: não permitir exceder MaxResources (assume 0 => ilimitado)
+            if (Task.MaxResources > 0 && Assignments.Count >= Task.MaxResources)
+            {
+                ModelState.AddModelError(string.Empty, $"Não é possível adicionar: número máximo de assignments atingido para esta task (MaxResources = {Task.MaxResources}).");
+                // repovoar selects/assignments para re-render da página com a mensagem
+                Initiatives = await _api.GetInitiativesAsync();
+                Statuses = await _api.GetStatusesAsync();
+                // Engineers e Assignments já carregados acima
+                return Page();
+            }
+
             var exists = Assignments.Exists(a => a.EngineerId == NewAssignment.EngineerId);
             if (exists)
             {
@@ -101,7 +118,7 @@ namespace DevCapacityWebApp.Pages.Tasks
             }
 
             // Defaults para campos readonly esperados pela API
-            NewAssignment.CapacityShare = NewAssignment.CapacityShare == 0 ? 100 : NewAssignment.CapacityShare;
+            NewAssignment.CapacityShare = NewAssignment.CapacityShare == 0 ? 0 : NewAssignment.CapacityShare;
             if (NewAssignment.StartDate == default) NewAssignment.StartDate = DateTime.Today;
             if (NewAssignment.EndDate == default) NewAssignment.EndDate = DateTime.Today;
 

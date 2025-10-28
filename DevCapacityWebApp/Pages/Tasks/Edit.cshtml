@@ -87,6 +87,9 @@
 <h4>Engineer Assignments</h4>
 
 <form method="post" asp-page-handler="AddAssignment" class="row g-2 mb-3">
+  <!-- validation summary para erros gerais (ex.: MaxResources) -->
+  <div asp-validation-summary="All" class="text-danger mb-2"></div>
+
   <!-- ensure TaskId and EngineerId are sent with exact names used by model binding -->
   <input type="hidden" name="NewAssignment.TaskId" value="@Model.Task.TaskId" />
 
@@ -136,3 +139,7 @@
     </tbody>
   </table>
 </div>
+
+@section Scripts {
+  <partial name="_ValidationScriptsPartial" />
+}
