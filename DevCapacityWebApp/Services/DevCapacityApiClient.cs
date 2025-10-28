@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using DevCapacityWebApp.Models;
@@ -74,8 +75,14 @@ namespace DevCapacityWebApp.Services
             return list ?? new List<Tasks>();
         }
 
-        public Task<Tasks?> GetTaskAsync(int id) =>
-            _http.GetFromJsonAsync<Tasks>($"/tasks/{id}");
+        public async Task<Tasks?> GetTaskAsync(int id)
+        {
+            if (id <= 0) return null;
+            var resp = await _http.GetAsync($"tasks/{id}");
+            if (resp.StatusCode == HttpStatusCode.NotFound) return null;
+            resp.EnsureSuccessStatusCode();
+            return await resp.Content.ReadFromJsonAsync<Tasks>();
+        }
 
         public async Task<bool> CreateTaskAsync(Tasks t)
         {

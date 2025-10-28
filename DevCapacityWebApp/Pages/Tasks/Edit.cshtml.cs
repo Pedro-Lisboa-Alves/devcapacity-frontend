@@ -14,7 +14,7 @@ namespace DevCapacityWebApp.Pages.Tasks
         public EditModel(DevCapacityApiClient api) => _api = api;
 
         [BindProperty]
-        public DevCapacityWebApp.Models.Tasks Task { get; set; } = new();
+        public DevCapacityWebApp.Models.Tasks Task { get; set; } = new DevCapacityWebApp.Models.Tasks();
 
         public List<DevCapacityWebApp.Models.Initiatives> Initiatives { get; set; } = new();
         public List<DevCapacityWebApp.Models.Status> Statuses { get; set; } = new();
@@ -26,14 +26,16 @@ namespace DevCapacityWebApp.Pages.Tasks
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
+            if (id <= 0) return RedirectToPage("/Tasks/Index");
+
             var t = await _api.GetTaskAsync(id);
             if (t == null) return RedirectToPage("/Tasks/Index");
-            Task = t;
 
+            Task = t;
             Initiatives = await _api.GetInitiativesAsync();
             Statuses = await _api.GetStatusesAsync();
             Engineers = await _api.GetEngineersAsync();
-            Assignments = await _api.GetAssignmentsForTaskAsync(Task.TaskId);
+            Assignments = await _api.GetAssignmentsForTaskAsync(Task.TaskId) ?? new List<EngineerAssignment>();
 
             return Page();
         }
@@ -58,83 +60,48 @@ namespace DevCapacityWebApp.Pages.Tasks
             if (NewAssignment == null)
                 return Redirect(Request.Path + Request.QueryString);
 
-            // carrega engineers (usado para heurística de binding)
-            Engineers = await _api.GetEngineersAsync();
-
-            // --- TaskId fallback ---
+            // resolve TaskId fallback
             if (NewAssignment.TaskId == 0)
             {
-                // tentativas explícitas
                 var formTask = Request.Form["NewAssignment.TaskId"].ToString();
                 if (!string.IsNullOrEmpty(formTask) && int.TryParse(formTask, out var fid))
-                {
                     NewAssignment.TaskId = fid;
-                }
-                else
-                {
-                    var alt = Request.Form["TaskId"].ToString();
-                    if (!string.IsNullOrEmpty(alt) && int.TryParse(alt, out fid))
-                    {
-                        NewAssignment.TaskId = fid;
-                    }
-                    else
-                    {
-                        var qs = Request.Query["id"].ToString();
-                        if (!string.IsNullOrEmpty(qs) && int.TryParse(qs, out var qid))
-                        {
-                            NewAssignment.TaskId = qid;
-                        }
-                        else if (RouteData.Values.TryGetValue("id", out var ridObj) && int.TryParse(ridObj?.ToString(), out var rid))
-                        {
-                            NewAssignment.TaskId = rid;
-                        }
-                    }
-                }
+                else if (Task != null && Task.TaskId != 0)
+                    NewAssignment.TaskId = Task.TaskId;
+                else if (RouteData.Values.TryGetValue("id", out var ridObj) && int.TryParse(ridObj?.ToString(), out var rid))
+                    NewAssignment.TaskId = rid;
             }
 
-            // --- EngineerId fallback ---
+            // resolve EngineerId fallback
             if (NewAssignment.EngineerId == 0)
             {
-                // tentativas explícitas por nomes comuns
                 var formEng = Request.Form["NewAssignment.EngineerId"].ToString();
                 if (!string.IsNullOrEmpty(formEng) && int.TryParse(formEng, out var eid))
-                {
                     NewAssignment.EngineerId = eid;
-                }
-                else
-                {
-                    var altEng = Request.Form["EngineerId"].ToString();
-                    if (!string.IsNullOrEmpty(altEng) && int.TryParse(altEng, out eid))
-                    {
-                        NewAssignment.EngineerId = eid;
-                    }
-                    else
-                    {
-                        // heurística: percorre todos os valores do form e tenta encontrar um que corresponda ao id de um engineer conhecido
-                        foreach (var kv in Request.Form)
-                        {
-                            foreach (var val in kv.Value)
-                            {
-                                if (int.TryParse(val, out var possible) && Engineers != null && Engineers.Exists(x => x.EngineerId == possible))
-                                {
-                                    NewAssignment.EngineerId = possible;
-                                    break;
-                                }
-                            }
-                            if (NewAssignment.EngineerId != 0) break;
-                        }
-                    }
-                }
             }
 
-            // valida obrigatoriedade mínima
             if (NewAssignment.EngineerId == 0 || NewAssignment.TaskId == 0)
-            {
                 return Redirect(Request.Path + Request.QueryString);
+
+            // carregar dados necessários para validação e re-render
+            Engineers = await _api.GetEngineersAsync();
+            Assignments = await _api.GetAssignmentsForTaskAsync(NewAssignment.TaskId) ?? new List<EngineerAssignment>();
+
+            var exists = Assignments.Exists(a => a.EngineerId == NewAssignment.EngineerId);
+            if (exists)
+            {
+                ModelState.AddModelError("NewAssignment.EngineerId", "Este engineer já está atribuído a esta task.");
+
+                // garantir que Task e selects estão preenchidos para re-render da página com erro
+                Task = await _api.GetTaskAsync(NewAssignment.TaskId) ?? new DevCapacityWebApp.Models.Tasks();
+                Initiatives = await _api.GetInitiativesAsync();
+                Statuses = await _api.GetStatusesAsync();
+
+                return Page();
             }
 
             // Defaults para campos readonly esperados pela API
-            NewAssignment.CapacityShare = NewAssignment.CapacityShare == 0 ? 0 : NewAssignment.CapacityShare;
+            NewAssignment.CapacityShare = NewAssignment.CapacityShare == 0 ? 100 : NewAssignment.CapacityShare;
             if (NewAssignment.StartDate == default) NewAssignment.StartDate = DateTime.Today;
             if (NewAssignment.EndDate == default) NewAssignment.EndDate = DateTime.Today;
 
