@@ -1,0 +1,15 @@
+# compose.yaml
+# Unified Docker Compose for DevCapacity WebApp (frontend)
+services:
+  devcapacitywebapp:
+    platform: linux/arm64
+    build:
+      context: ./DevCapacityWebApp
+      dockerfile: Dockerfile
+    image: devcapacitywebapp:local
+    ports:
+      - "5000:80"    # Acede via http://localhost:5000
+    environment:
+      - DEV_CAPACITY_API_BASE=http://host.docker.internal:5001/  # API local no host
+      - ASPNETCORE_URLS=http://+:80
+    restart: unless-stopped

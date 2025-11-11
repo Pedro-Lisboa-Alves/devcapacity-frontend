@@ -5,9 +5,10 @@ builder.Services.AddRazorPages();
 
 // Register DevCapacity API client (ajuste BaseAddress para sua API)
 // NOTE: só usar AddHttpClient<TClient>(); não registar AddScoped novamente.
+var apiBase = builder.Configuration["DEV_CAPACITY_API_BASE"] ?? builder.Configuration["ApiBaseUrl"] ?? "http://localhost:5144/";
 builder.Services.AddHttpClient<DevCapacityWebApp.Services.DevCapacityApiClient>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5144/");
+    client.BaseAddress = new Uri(apiBase);
 });
 
 var app = builder.Build();
