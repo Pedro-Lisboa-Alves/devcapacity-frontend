@@ -1,15 +1,19 @@
-# compose.yaml
-# Unified Docker Compose for DevCapacity WebApp (frontend)
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
 services:
   devcapacitywebapp:
-    platform: linux/arm64
+    image: devcapacitywebapp
     build:
-      context: ./DevCapacityWebApp
-      dockerfile: Dockerfile
-    image: devcapacitywebapp:local
+      context: .
+      dockerfile: DevCapacityWebApp/Dockerfile
     ports:
-      - "5000:80"    # Acede via http://localhost:5000
+      - 5084:5084
     environment:
-      - DEV_CAPACITY_API_BASE=http://host.docker.internal:5001/  # API local no host
-      - ASPNETCORE_URLS=http://+:80
-    restart: unless-stopped
+      DEV_CAPACITY_API_BASE: "http://devcapacityapi:5152/"
+
+    networks:
+        - kafka-net
+
+networks:
+  kafka-net:
+    external: true
