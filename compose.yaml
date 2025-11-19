@@ -10,9 +10,21 @@ services:
       - 5084:5084
     environment:
       DEV_CAPACITY_API_BASE: "http://devcapacityapi:5152/"
-
+      # point to Auth API running on the host machine from inside Docker
+      AUTH_SERVICE_API_BASE: "http://host.docker.internal:7085/"
     networks:
         - kafka-net
+
+  # If you have a local AuthService project, you can enable it here. Example:
+  # authservice:
+  #   image: authservice
+  #   build:
+  #     context: ./AuthService
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 7085:7085
+  #   networks:
+  #     - kafka-net
 
 networks:
   kafka-net:

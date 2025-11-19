@@ -1,0 +1,29 @@
+@page
+@model DevCapacityWebApp.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+<div class="row justify-content-center">
+  <div class="col-md-4">
+    <h3>Login</h3>
+    <form method="post">
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input asp-for="Input.Email" class="form-control" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input asp-for="Input.Password" type="password" class="form-control" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Model</label>
+        <input asp-for="Input.Model" class="form-control" value="web" />
+      </div>
+      <button type="submit" class="btn btn-primary">Sign in</button>
+    </form>
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+      <div class="mt-3 alert alert-danger">@Model.ErrorMessage</div>
+    }
+  </div>
+</div>

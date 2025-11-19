@@ -93,3 +93,10 @@
 /Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/compressed/b4w5s2rs12-n60uvaaaon.gz
 /Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/compressed/l5y5pjuliu-djebon5sfl.gz
 /Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/compressed/wtz2q6fmvi-dff78oolxc.gz
+/Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll
+/Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll
+/Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/bin/Debug/net9.0/System.IdentityModel.Tokens.Jwt.dll
+/Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/DevCapacityWebApp.csproj.AssemblyReference.cache
+/Users/pedroalves/Desktop/Tmp Work/GitHub Projects/devcapacity-frontend/DevCapacityWebApp/obj/Debug/net9.0/DevCapac.C6B3C102.Up2Date

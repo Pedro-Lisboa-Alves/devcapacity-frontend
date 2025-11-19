@@ -12,5 +12,6 @@ services:
       - 5084:5084
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - AUTH_SERVICE_API_BASE=http://localhost:7085/
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
