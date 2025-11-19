@@ -5,28 +5,37 @@
   </div>
 
   <nav class="sidebar-nav" aria-label="Main navigation">
-    <ul class="list-unstyled m-0">
-      <li class="mb-1">
-        <a class="btn sidebar-btn w-100 text-start @(Context.Request.Path.StartsWithSegments("/Timeline") ? "fw-bold" : "")"
-           href="/Timeline">Timeline</a>
-      </li>
-      <li class="mb-1">
-        <a class="btn sidebar-btn w-100 text-start @(Context.Request.Path.StartsWithSegments("/Engineers") ? "fw-bold" : "")"
-           href="/Engineers">Engineers</a>
-      </li>
-      <li class="mb-1">
-        <a class="btn sidebar-btn w-100 text-start @(Context.Request.Path.StartsWithSegments("/Teams") ? "fw-bold" : "")"
-           href="/Teams">Teams</a>
-      </li>
-      <li class="mb-1">
-        <a class="btn sidebar-btn w-100 text-start @(Context.Request.Path.StartsWithSegments("/Initiatives") ? "fw-bold" : "")"
-           href="/Initiatives">Initiatives</a>
-      </li>
-      <li class="mb-1">
-        <a class="btn sidebar-btn w-100 text-start @(Context.Request.Path.StartsWithSegments("/Tasks") ? "fw-bold" : "")"
-           href="/Tasks">Tasks</a>
-      </li>
-    </ul>
+    @if (User?.Identity?.IsAuthenticated == true)
+    {
+        <ul class="list-unstyled m-0">
+          <li class="mb-1">
+            <a class="btn sidebar-btn w-100 text-start @(Context.Request.Path.StartsWithSegments("/Timeline") ? "fw-bold" : "")"
+               href="/Timeline">Timeline</a>
+          </li>
+          <li class="mb-1">
+            <a class="btn sidebar-btn w-100 text-start @(Context.Request.Path.StartsWithSegments("/Engineers") ? "fw-bold" : "")"
+               href="/Engineers">Engineers</a>
+          </li>
+          <li class="mb-1">
+            <a class="btn sidebar-btn w-100 text-start @(Context.Request.Path.StartsWithSegments("/Teams") ? "fw-bold" : "")"
+               href="/Teams">Teams</a>
+          </li>
+          <li class="mb-1">
+            <a class="btn sidebar-btn w-100 text-start @(Context.Request.Path.StartsWithSegments("/Initiatives") ? "fw-bold" : "")"
+               href="/Initiatives">Initiatives</a>
+          </li>
+          <li class="mb-1">
+            <a class="btn sidebar-btn w-100 text-start @(Context.Request.Path.StartsWithSegments("/Tasks") ? "fw-bold" : "")"
+               href="/Tasks">Tasks</a>
+          </li>
+        </ul>
+    }
+    else
+    {
+        <div class="px-3">
+          <div class="alert alert-info small">Please <a href="/Account/Login">sign in</a> to access application features.</div>
+        </div>
+    }
   </nav>
 </aside>
 @* Login / Logout *@
